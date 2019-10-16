@@ -468,7 +468,7 @@ export class GrayImageU32 {
     // CONVERSION
     ///////////////////////////////////////////////////////////////////////////
 
-    async grayimage_u32_to_image(): Promise<Image> {
+    async to_image(): Promise<Image> {
         return sys
             .grayimage_u32_to_image(this.handle)
             .then(x => new Image(x));
