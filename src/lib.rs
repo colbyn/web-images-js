@@ -9,7 +9,7 @@ pub mod api;
 library_exports!{
     image_open => crate::api::image::open,
     image_open_with_format => crate::api::image::open_with_format,
-    image_new => crate::api::image::new,
+    image_create => crate::api::image::create,
     image_dimensions => crate::api::image::dimensions,
     image_crop => crate::api::image::crop,
     image_color => crate::api::image::color,

@@ -231,7 +231,7 @@ pub struct NewArgs {
     pub pixel_type: String,
 }
 
-pub fn new(
+pub fn create(
     env: NapiEnv, 
     args: NapiValue,
 ) -> Result<NapiValue, String> {
@@ -704,6 +704,12 @@ pub fn save(
     let input: Input = (input_image, input_path);
     fn compute(data: Input) -> Result<(), String> {
         let path = data.1.clone();
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent).expect(&format!(
+                "Missing base directory; unable to create base directory for path {:?}",
+                path
+            ));
+        }
         (data.0).0
             .save(path)
             .map_err(|x| format!("{}", x))
@@ -779,9 +785,9 @@ pub fn map_rgba(
     };
     for (x, y, mut px) in image.enumerate_pixels_mut() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0.clone());
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<[u8; 4]>(env, px.0.clone());
             let args = [arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
@@ -851,9 +857,9 @@ pub fn reduce_rgba(
     let mut accumulator: NapiValue = initial_value;
     for (x, y, mut px) in image.enumerate_pixels() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0.clone());
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<[u8; 4]>(env, px.0.clone());
             let args = [accumulator, arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
@@ -915,9 +921,9 @@ pub fn map_luma(
     };
     for (x, y, mut px) in image.enumerate_pixels_mut() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0[0]);
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<u8>(env, px.0[0]);
             let args = [arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
@@ -984,9 +990,9 @@ pub fn reduce_luma(
     let mut accumulator: NapiValue = initial_value;
     for (x, y, mut px) in image.enumerate_pixels() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0[0]);
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<u8>(env, px.0[0]);
             let args = [accumulator, arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
@@ -1047,16 +1053,16 @@ pub fn map_grayimage_u32(
     };
     for (x, y, mut px) in image.enumerate_pixels_mut() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0.clone());
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<u32>(env, px.0[0]);
             let args = [arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
                 env,
                 global,
                 js_function,
-                3,
+                args.len(),
                 args.as_ptr(),
                 &mut out,
             );
@@ -1116,9 +1122,9 @@ pub fn reduce_grayimage_u32(
     let mut accumulator: NapiValue = initial_value;
     for (x, y, mut px) in image.enumerate_pixels() {
         unsafe {
-            let arg_cx = to_napi_value(env, x.clone());
-            let arg_cy = to_napi_value(env, y.clone());
-            let arg_px = to_napi_value(env, px.0.clone());
+            let arg_cx = to_napi_value::<u32>(env, x.clone());
+            let arg_cy = to_napi_value::<u32>(env, y.clone());
+            let arg_px = to_napi_value::<u32>(env, px.0[0]);
             let args = [accumulator, arg_cx, arg_cy, arg_px];
             let mut out: NapiValue = std::ptr::null_mut();
             let s = napi_call_function(
@@ -1321,6 +1327,9 @@ pub fn stretch_contrast(
     let input_image = Image::from_napi_value(env, image)?;
     let input_lower = from_napi_value::<u8>(env, lower)?;
     let input_upper = from_napi_value::<u8>(env, upper)?;
+    if !(input_upper > input_lower) {
+        return Err(String::from("upper must be strictly greater than lower"));
+    }
     let input: Input = (input_image, input_lower, input_upper);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();

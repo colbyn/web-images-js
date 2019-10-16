@@ -30,7 +30,7 @@ export interface NewArgs {
     height: Number;
     pixel_type: "rgba" | "rgb" | "luma";
 }
-export declare function new_image(args: NewArgs): Promise<Image>;
+export declare function create(args: NewArgs): Promise<Image>;
 export declare function dimensions(image: Image): Promise<Resolution>;
 export interface CropArgs {
     cx: Number;
@@ -38,7 +38,7 @@ export interface CropArgs {
     width: Number;
     height: Number;
 }
-export declare function crop(args: CropArgs): Promise<Image>;
+export declare function crop(image: Image, args: CropArgs): Promise<Image>;
 export interface ColorInfo {
     pixel_type: String;
     bit_depth: Number;
@@ -103,5 +103,5 @@ export declare function morph_erode(image: Image, norm: "L1" | "LInf", k: Number
 export declare function morph_open(image: Image, norm: "L1" | "LInf", k: Number): Promise<Image>;
 export declare function gaussian_noise(image: Image, mean: Number, stddev: Number, seed: Number): Promise<Image>;
 export declare function salt_and_pepper_noise(image: Image, rate: Number, seed: Number): Promise<Image>;
-export declare function connected_components(image: Image, conn: "Four" | "Eight", background: Number): Promise<Image>;
+export declare function connected_components(image: Image, conn: "Four" | "Eight", background: Number): Promise<GrayImageU32>;
 export declare function shrink_width(image: Image, target_width: Number): Promise<Image>;

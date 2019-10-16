@@ -57,8 +57,8 @@ export interface NewArgs {
     pixel_type: "rgba" | "rgb" | "luma",
 }
 
-export function new_image(args: NewArgs): Promise<Image> {
-    return foreign.image_new(args);
+export function create(args: NewArgs): Promise<Image> {
+    return foreign.image_create(args);
 }
 
 export function dimensions(image: Image): Promise<Resolution> {
@@ -72,8 +72,8 @@ export interface CropArgs {
     height: Number,
 }
 
-export function crop(args: CropArgs): Promise<Image> {
-    return foreign.image_crop(args);
+export function crop(image: Image, args: CropArgs): Promise<Image> {
+    return foreign.image_crop(image, args);
 }
 
 export interface ColorInfo {
@@ -233,103 +233,103 @@ export function grayimage_u32_to_image(image: GrayImageU32): Promise<Image> {
 
 
 export function adaptive_threshold(image: Image, block_radius: Number): Promise<Image> {
-    return foreign.adaptive_threshold(image, block_radius);
+    return foreign.image_adaptive_threshold(image, block_radius);
 }
 
 export function equalize_histogram(image: Image): Promise<Image> {
-    return foreign.equalize_histogram(image, undefined);
+    return foreign.image_equalize_histogram(image, undefined);
 }
 
 export function match_histogram(image: Image, target: Image): Promise<Image> {
-    return foreign.match_histogram(image, target);
+    return foreign.image_match_histogram(image, target);
 }
 
 export function otsu_level(image: Image): Promise<Image> {
-    return foreign.otsu_level(image);
+    return foreign.image_otsu_level(image);
 }
 
 export function stretch_contrast(image: Image, lower: Number, upper: Number): Promise<Image> {
-    return foreign.stretch_contrast(image, lower, upper);
+    return foreign.image_stretch_contrast(image, lower, upper);
 }
 
 export function threshold(image: Image, thresh: Number): Promise<Image> {
-    return foreign.threshold(image, thresh);
+    return foreign.image_threshold(image, thresh);
 }
 
 export function distance_transform(image: Image, norm: "L1" | "LInf"): Promise<Image> {
-    return foreign.distance_transform(image, norm);
+    return foreign.image_distance_transform(image, norm);
 }
 
 export function canny(image: Image, low_threshold: Number, high_threshold: Number): Promise<Image> {
-    return foreign.canny(image, low_threshold, high_threshold);
+    return foreign.image_canny(image, low_threshold, high_threshold);
 }
 
 export function box_filter(image: Image, x_radius: Number, y_radius: Number): Promise<Image> {
-    return foreign.box_filter(image, x_radius, y_radius);
+    return foreign.image_box_filter(image, x_radius, y_radius);
 }
 
 export function gaussian_blur_f32(image: Image, sigma: Number): Promise<Image> {
-    return foreign.gaussian_blur_f32(image, sigma);
+    return foreign.image_gaussian_blur_f32(image, sigma);
 }
 
 export function horizontal_filter(image: Image, kernel: Array<Number>): Promise<Image> {
-    return foreign.horizontal_filter(image, kernel);
+    return foreign.image_horizontal_filter(image, kernel);
 }
 
 export function median_filter(image: Image, x_radius: Number, y_radius: Number): Promise<Image> {
-    return foreign.median_filter(image, x_radius, y_radius);
+    return foreign.image_median_filter(image, x_radius, y_radius);
 }
 
 export function separable_filter(image: Image, h_kernel: Array<Number>, v_kernel: Array<Number>): Promise<Image> {
-    return foreign.separable_filter(image, h_kernel, v_kernel);
+    return foreign.image_separable_filter(image, h_kernel, v_kernel);
 }
 
 export function separable_filter_equal(image: Image, kernel: Array<Number>): Promise<Image> {
-    return foreign.separable_filter_equal(image, kernel);
+    return foreign.image_separable_filter_equal(image, kernel);
 }
 
 export function sharpen3x3(image: Image): Promise<Image> {
-    return foreign.sharpen3x3(image);
+    return foreign.image_sharpen3x3(image);
 }
 
 export function sharpen_gaussian(image: Image, sigma: Number, amount: Number): Promise<Image> {
-    return foreign.sharpen_gaussian(image, sigma, amount);
+    return foreign.image_sharpen_gaussian(image, sigma, amount);
 }
 
 export function vertical_filter(image: Image, kernel: Array<Number>): Promise<Image> {
-    return foreign.vertical_filter(image, kernel);
+    return foreign.image_vertical_filter(image, kernel);
 }
 
 export function morph_close(image: Image, norm: "L1" | "LInf", k: Number): Promise<Image> {
-    return foreign.morph_close(image, norm, k);
+    return foreign.image_morph_close(image, norm, k);
 }
 
 export function morph_dilate(image: Image, norm: "L1" | "LInf", k: Number): Promise<Image> {
-    return foreign.morph_dilate(image, norm, k);
+    return foreign.image_morph_dilate(image, norm, k);
 }
 
 export function morph_erode(image: Image, norm: "L1" | "LInf", k: Number): Promise<Image> {
-    return foreign.morph_erode(image, norm, k);
+    return foreign.image_morph_erode(image, norm, k);
 }
 
 export function morph_open(image: Image, norm: "L1" | "LInf", k: Number): Promise<Image> {
-    return foreign.morph_open(image, norm, k);
+    return foreign.image_morph_open(image, norm, k);
 }
 
 export function gaussian_noise(image: Image, mean: Number, stddev: Number, seed: Number): Promise<Image> {
-    return foreign.gaussian_noise(image, mean, stddev, seed);
+    return foreign.image_gaussian_noise(image, mean, stddev, seed);
 }
 
 export function salt_and_pepper_noise(image: Image, rate: Number, seed: Number): Promise<Image> {
-    return foreign.salt_and_pepper_noise(image, rate, seed);
+    return foreign.image_salt_and_pepper_noise(image, rate, seed);
 }
 
-export function connected_components(image: Image, conn: "Four" | "Eight", background: Number): Promise<Image> {
-    return foreign.connected_components(image, conn, background);
+export function connected_components(image: Image, conn: "Four" | "Eight", background: Number): Promise<GrayImageU32> {
+    return foreign.image_connected_components(image, conn, background);
 }
 
 export function shrink_width(image: Image, target_width: Number): Promise<Image> {
-    return foreign.shrink_width(image, target_width);
+    return foreign.image_shrink_width(image, target_width);
 }
 
 

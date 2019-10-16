@@ -1,5 +1,5 @@
 import * as sys from "./sys";
-export {ImageFormat, Kernel3x3} from "./sys";
+export {ImageFormat, Kernel3x3, ResizeArgs, ThumbnailArgs} from "./sys";
 
 export class Image {
     private handle!: sys.Image;
@@ -22,7 +22,7 @@ export class Image {
     }
 
     static async create(width: Number, height: Number, pixel_type: "rgba" | "rgb" | "luma"): Promise<Image> {
-        let img = await sys.new_image({width, height, pixel_type});
+        let img = await sys.create({width, height, pixel_type});
         return new Image(img);
     }
 
@@ -31,7 +31,10 @@ export class Image {
     }
 
     async crop(cx: Number, cy: Number, width: Number, height: Number): Promise<Image> {
-        throw "todo"
+        let crop_args: sys.CropArgs = {cx, cy, width, height};
+        return sys
+            .crop(this.handle, crop_args)
+            .then(x => new Image(x));
     }
 
     async color(): Promise<sys.ColorInfo> {
@@ -42,93 +45,93 @@ export class Image {
         return sys.grayscale(this.handle).then(x => new Image(x));
     }
     
-    async invert(image: Image): Promise<Image> {
+    async invert(): Promise<Image> {
         return sys
             .invert(this.handle)
             .then(x => new Image(x));
     }
     
-    async resize(image: Image, args: sys.ResizeArgs): Promise<Image> {
+    async resize(args: sys.ResizeArgs): Promise<Image> {
         return sys
             .resize(this.handle, args)
             .then(x => new Image(x));
     }
     
-    async thumbnail(image: Image, args: sys.ThumbnailArgs): Promise<Image> {
+    async thumbnail(args: sys.ThumbnailArgs): Promise<Image> {
         return sys
             .thumbnail(this.handle, args)
             .then(x => new Image(x));
     }
     
-    async blur(image: Image, sigma: Number): Promise<Image> {
+    async blur(sigma: Number): Promise<Image> {
         return sys
             .blur(this.handle, sigma)
             .then(x => new Image(x));
     }
     
-    async unsharpen(image: Image, sigma: Number, threshold: Number): Promise<Image> {
+    async unsharpen(sigma: Number, threshold: Number): Promise<Image> {
         return sys
             .unsharpen(this.handle, sigma, threshold)
             .then(x => new Image(x));
     }
     
-    async filter3x3(image: Image, kernel: sys.Kernel3x3): Promise<Image> {
+    async filter3x3(kernel: sys.Kernel3x3): Promise<Image> {
         return sys.filter3x3(this.handle, kernel)
             .then(x => new Image(x));
     }
     
-    async contrast(image: Image, contrast: Number): Promise<Image> {
+    async adjust_contrast(contrast: Number): Promise<Image> {
         return sys.adjust_contrast(this.handle, contrast)
             .then(x => new Image(x));
     }
     
-    async brighten(image: Image, value: Number): Promise<Image> {
+    async brighten(value: Number): Promise<Image> {
         return sys
             .brighten(this.handle, value)
             .then(x => new Image(x));
     }
     
-    async huerotate(image: Image, value: Number): Promise<Image> {
+    async huerotate(value: Number): Promise<Image> {
         return sys
             .huerotate(this.handle, value)
             .then(x => new Image(x));
     }
     
-    async flipv(image: Image): Promise<Image> {
+    async flipv(): Promise<Image> {
         return sys
             .flipv(this.handle)
             .then(x => new Image(x));
     }
     
-    async fliph(image: Image): Promise<Image> {
+    async fliph(): Promise<Image> {
         return sys
             .fliph(this.handle)
             .then(x => new Image(x));
     }
     
-    async rotate90(image: Image): Promise<Image> {
+    async rotate90(): Promise<Image> {
         return sys
             .rotate90(this.handle)
             .then(x => new Image(x));
     }
     
-    async rotate180(image: Image): Promise<Image> {
+    async rotate180(): Promise<Image> {
         return sys
             .rotate180(this.handle)
             .then(x => new Image(x));
     }
     
-    async rotate270(image: Image): Promise<Image> {
+    async rotate270(): Promise<Image> {
         return sys
             .rotate270(this.handle)
             .then(x => new Image(x));
     }
     
-    async save(image: Image, path: String): Promise<null> {
+    async save(path: String): Promise<null> {
         return sys.save(this.handle, path);
     }
     
-    async save_with_format(image: Image, path: String, format: sys.ImageFormat): Promise<null> {
+    async save_with_format(path: String, format: sys.ImageFormat): Promise<null> {
         return sys.save_with_format(this.handle, path, format);
     }
 
@@ -395,10 +398,10 @@ export class Image {
     // ADVANCED PROCESSING - REGION-LABELLING
     ///////////////////////////////////////////////////////////////////////////////
 
-    async connected_components(conn: "Four" | "Eight", background: Number): Promise<Image> {
+    async connected_components(conn: "Four" | "Eight", background: Number): Promise<GrayImageU32> {
         return sys
             .connected_components(this.handle, conn, background)
-            .then(x => new Image(x));
+            .then(x => new GrayImageU32(x));
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -450,13 +453,13 @@ export class GrayImageU32 {
     // TRAVERSAL
     ///////////////////////////////////////////////////////////////////////////
 
-    async map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32> {
+    async map_luma(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32> {
         return sys
             .grayimage_u32_map(this.handle, f)
             .then(x => new GrayImageU32(x));
     }
 
-    async reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T> {
+    async reduce_luma<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T> {
         return sys.grayimage_u32_reduce(this.handle, initial_value, f);
     }
 
@@ -465,23 +468,12 @@ export class GrayImageU32 {
     // CONVERSION
     ///////////////////////////////////////////////////////////////////////////
 
-    async grayimage_u32_to_image(image: GrayImageU32): Promise<Image> {
+    async grayimage_u32_to_image(): Promise<Image> {
         return sys
             .grayimage_u32_to_image(this.handle)
             .then(x => new Image(x));
     }
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-// DEV
-///////////////////////////////////////////////////////////////////////////////
-
-Image
-    .open("/Users/colbyn/Developer/stock-media/max1000x1000-10k-max/l0/EJR-lolXzJyeXn.jpeg")
-    .then(x => x.dimensions())
-    .then(x => {
-        console.log(x);
-    });
 
 

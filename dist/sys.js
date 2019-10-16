@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.open = open;
 exports.open_with_format = open_with_format;
-exports.new_image = new_image;
+exports.create = create;
 exports.dimensions = dimensions;
 exports.crop = crop;
 exports.color = color;
@@ -75,16 +75,16 @@ function open_with_format(path, format) {
   return _web_images_napi.default.image_open_with_format(path, format);
 }
 
-function new_image(args) {
-  return _web_images_napi.default.image_new(args);
+function create(args) {
+  return _web_images_napi.default.image_create(args);
 }
 
 function dimensions(image) {
   return _web_images_napi.default.image_dimensions(image);
 }
 
-function crop(args) {
-  return _web_images_napi.default.image_crop(args);
+function crop(image, args) {
+  return _web_images_napi.default.image_crop(image, args);
 }
 
 function color(image) {
@@ -197,101 +197,101 @@ function grayimage_u32_to_image(image) {
 
 
 function adaptive_threshold(image, block_radius) {
-  return _web_images_napi.default.adaptive_threshold(image, block_radius);
+  return _web_images_napi.default.image_adaptive_threshold(image, block_radius);
 }
 
 function equalize_histogram(image) {
-  return _web_images_napi.default.equalize_histogram(image, undefined);
+  return _web_images_napi.default.image_equalize_histogram(image, undefined);
 }
 
 function match_histogram(image, target) {
-  return _web_images_napi.default.match_histogram(image, target);
+  return _web_images_napi.default.image_match_histogram(image, target);
 }
 
 function otsu_level(image) {
-  return _web_images_napi.default.otsu_level(image);
+  return _web_images_napi.default.image_otsu_level(image);
 }
 
 function stretch_contrast(image, lower, upper) {
-  return _web_images_napi.default.stretch_contrast(image, lower, upper);
+  return _web_images_napi.default.image_stretch_contrast(image, lower, upper);
 }
 
 function threshold(image, thresh) {
-  return _web_images_napi.default.threshold(image, thresh);
+  return _web_images_napi.default.image_threshold(image, thresh);
 }
 
 function distance_transform(image, norm) {
-  return _web_images_napi.default.distance_transform(image, norm);
+  return _web_images_napi.default.image_distance_transform(image, norm);
 }
 
 function canny(image, low_threshold, high_threshold) {
-  return _web_images_napi.default.canny(image, low_threshold, high_threshold);
+  return _web_images_napi.default.image_canny(image, low_threshold, high_threshold);
 }
 
 function box_filter(image, x_radius, y_radius) {
-  return _web_images_napi.default.box_filter(image, x_radius, y_radius);
+  return _web_images_napi.default.image_box_filter(image, x_radius, y_radius);
 }
 
 function gaussian_blur_f32(image, sigma) {
-  return _web_images_napi.default.gaussian_blur_f32(image, sigma);
+  return _web_images_napi.default.image_gaussian_blur_f32(image, sigma);
 }
 
 function horizontal_filter(image, kernel) {
-  return _web_images_napi.default.horizontal_filter(image, kernel);
+  return _web_images_napi.default.image_horizontal_filter(image, kernel);
 }
 
 function median_filter(image, x_radius, y_radius) {
-  return _web_images_napi.default.median_filter(image, x_radius, y_radius);
+  return _web_images_napi.default.image_median_filter(image, x_radius, y_radius);
 }
 
 function separable_filter(image, h_kernel, v_kernel) {
-  return _web_images_napi.default.separable_filter(image, h_kernel, v_kernel);
+  return _web_images_napi.default.image_separable_filter(image, h_kernel, v_kernel);
 }
 
 function separable_filter_equal(image, kernel) {
-  return _web_images_napi.default.separable_filter_equal(image, kernel);
+  return _web_images_napi.default.image_separable_filter_equal(image, kernel);
 }
 
 function sharpen3x3(image) {
-  return _web_images_napi.default.sharpen3x3(image);
+  return _web_images_napi.default.image_sharpen3x3(image);
 }
 
 function sharpen_gaussian(image, sigma, amount) {
-  return _web_images_napi.default.sharpen_gaussian(image, sigma, amount);
+  return _web_images_napi.default.image_sharpen_gaussian(image, sigma, amount);
 }
 
 function vertical_filter(image, kernel) {
-  return _web_images_napi.default.vertical_filter(image, kernel);
+  return _web_images_napi.default.image_vertical_filter(image, kernel);
 }
 
 function morph_close(image, norm, k) {
-  return _web_images_napi.default.morph_close(image, norm, k);
+  return _web_images_napi.default.image_morph_close(image, norm, k);
 }
 
 function morph_dilate(image, norm, k) {
-  return _web_images_napi.default.morph_dilate(image, norm, k);
+  return _web_images_napi.default.image_morph_dilate(image, norm, k);
 }
 
 function morph_erode(image, norm, k) {
-  return _web_images_napi.default.morph_erode(image, norm, k);
+  return _web_images_napi.default.image_morph_erode(image, norm, k);
 }
 
 function morph_open(image, norm, k) {
-  return _web_images_napi.default.morph_open(image, norm, k);
+  return _web_images_napi.default.image_morph_open(image, norm, k);
 }
 
 function gaussian_noise(image, mean, stddev, seed) {
-  return _web_images_napi.default.gaussian_noise(image, mean, stddev, seed);
+  return _web_images_napi.default.image_gaussian_noise(image, mean, stddev, seed);
 }
 
 function salt_and_pepper_noise(image, rate, seed) {
-  return _web_images_napi.default.salt_and_pepper_noise(image, rate, seed);
+  return _web_images_napi.default.image_salt_and_pepper_noise(image, rate, seed);
 }
 
 function connected_components(image, conn, background) {
-  return _web_images_napi.default.connected_components(image, conn, background);
+  return _web_images_napi.default.image_connected_components(image, conn, background);
 }
 
 function shrink_width(image, target_width) {
-  return _web_images_napi.default.shrink_width(image, target_width);
+  return _web_images_napi.default.image_shrink_width(image, target_width);
 }

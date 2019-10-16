@@ -15,6 +15,18 @@ Object.defineProperty(exports, "Kernel3x3", {
     return sys.Kernel3x3;
   }
 });
+Object.defineProperty(exports, "ResizeArgs", {
+  enumerable: true,
+  get: function () {
+    return sys.ResizeArgs;
+  }
+});
+Object.defineProperty(exports, "ThumbnailArgs", {
+  enumerable: true,
+  get: function () {
+    return sys.ThumbnailArgs;
+  }
+});
 exports.GrayImageU32 = exports.Image = void 0;
 
 var sys = _interopRequireWildcard(require("./sys"));
@@ -46,7 +58,7 @@ class Image {
   }
 
   static async create(width, height, pixel_type) {
-    let img = await sys.new_image({
+    let img = await sys.create({
       width,
       height,
       pixel_type
@@ -59,7 +71,13 @@ class Image {
   }
 
   async crop(cx, cy, width, height) {
-    throw "todo";
+    let crop_args = {
+      cx,
+      cy,
+      width,
+      height
+    };
+    return sys.crop(this.handle, crop_args).then(x => new Image(x));
   }
 
   async color() {
@@ -70,67 +88,67 @@ class Image {
     return sys.grayscale(this.handle).then(x => new Image(x));
   }
 
-  async invert(image) {
+  async invert() {
     return sys.invert(this.handle).then(x => new Image(x));
   }
 
-  async resize(image, args) {
+  async resize(args) {
     return sys.resize(this.handle, args).then(x => new Image(x));
   }
 
-  async thumbnail(image, args) {
+  async thumbnail(args) {
     return sys.thumbnail(this.handle, args).then(x => new Image(x));
   }
 
-  async blur(image, sigma) {
+  async blur(sigma) {
     return sys.blur(this.handle, sigma).then(x => new Image(x));
   }
 
-  async unsharpen(image, sigma, threshold) {
+  async unsharpen(sigma, threshold) {
     return sys.unsharpen(this.handle, sigma, threshold).then(x => new Image(x));
   }
 
-  async filter3x3(image, kernel) {
+  async filter3x3(kernel) {
     return sys.filter3x3(this.handle, kernel).then(x => new Image(x));
   }
 
-  async contrast(image, contrast) {
+  async adjust_contrast(contrast) {
     return sys.adjust_contrast(this.handle, contrast).then(x => new Image(x));
   }
 
-  async brighten(image, value) {
+  async brighten(value) {
     return sys.brighten(this.handle, value).then(x => new Image(x));
   }
 
-  async huerotate(image, value) {
+  async huerotate(value) {
     return sys.huerotate(this.handle, value).then(x => new Image(x));
   }
 
-  async flipv(image) {
+  async flipv() {
     return sys.flipv(this.handle).then(x => new Image(x));
   }
 
-  async fliph(image) {
+  async fliph() {
     return sys.fliph(this.handle).then(x => new Image(x));
   }
 
-  async rotate90(image) {
+  async rotate90() {
     return sys.rotate90(this.handle).then(x => new Image(x));
   }
 
-  async rotate180(image) {
+  async rotate180() {
     return sys.rotate180(this.handle).then(x => new Image(x));
   }
 
-  async rotate270(image) {
+  async rotate270() {
     return sys.rotate270(this.handle).then(x => new Image(x));
   }
 
-  async save(image, path) {
+  async save(path) {
     return sys.save(this.handle, path);
   }
 
-  async save_with_format(image, path, format) {
+  async save_with_format(path, format) {
     return sys.save_with_format(this.handle, path, format);
   } ///////////////////////////////////////////////////////////////////////////
   // TRAVERSAL
@@ -309,7 +327,7 @@ class Image {
 
 
   async connected_components(conn, background) {
-    return sys.connected_components(this.handle, conn, background).then(x => new Image(x));
+    return sys.connected_components(this.handle, conn, background).then(x => new GrayImageU32(x));
   } ///////////////////////////////////////////////////////////////////////////////
   // ADVANCED PROCESSING - SEAM-CARVING
   ///////////////////////////////////////////////////////////////////////////////
@@ -348,27 +366,21 @@ class GrayImageU32 {
   ///////////////////////////////////////////////////////////////////////////
 
 
-  async map(f) {
+  async map_luma(f) {
     return sys.grayimage_u32_map(this.handle, f).then(x => new GrayImageU32(x));
   }
 
-  async reduce(initial_value, f) {
+  async reduce_luma(initial_value, f) {
     return sys.grayimage_u32_reduce(this.handle, initial_value, f);
   } ///////////////////////////////////////////////////////////////////////////
   // CONVERSION
   ///////////////////////////////////////////////////////////////////////////
 
 
-  async grayimage_u32_to_image(image) {
+  async grayimage_u32_to_image() {
     return sys.grayimage_u32_to_image(this.handle).then(x => new Image(x));
   }
 
-} ///////////////////////////////////////////////////////////////////////////////
-// DEV
-///////////////////////////////////////////////////////////////////////////////
-
+}
 
 exports.GrayImageU32 = GrayImageU32;
-Image.open("/Users/colbyn/Developer/stock-media/max1000x1000-10k-max/l0/EJR-lolXzJyeXn.jpeg").then(x => x.dimensions()).then(x => {
-  console.log(x);
-});

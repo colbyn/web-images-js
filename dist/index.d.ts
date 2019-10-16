@@ -1,5 +1,5 @@
 import * as sys from "./sys";
-export { ImageFormat, Kernel3x3 } from "./sys";
+export { ImageFormat, Kernel3x3, ResizeArgs, ThumbnailArgs } from "./sys";
 export declare class Image {
     private handle;
     constructor(x: sys.Image);
@@ -10,22 +10,22 @@ export declare class Image {
     crop(cx: Number, cy: Number, width: Number, height: Number): Promise<Image>;
     color(): Promise<sys.ColorInfo>;
     grayscale(): Promise<Image>;
-    invert(image: Image): Promise<Image>;
-    resize(image: Image, args: sys.ResizeArgs): Promise<Image>;
-    thumbnail(image: Image, args: sys.ThumbnailArgs): Promise<Image>;
-    blur(image: Image, sigma: Number): Promise<Image>;
-    unsharpen(image: Image, sigma: Number, threshold: Number): Promise<Image>;
-    filter3x3(image: Image, kernel: sys.Kernel3x3): Promise<Image>;
-    contrast(image: Image, contrast: Number): Promise<Image>;
-    brighten(image: Image, value: Number): Promise<Image>;
-    huerotate(image: Image, value: Number): Promise<Image>;
-    flipv(image: Image): Promise<Image>;
-    fliph(image: Image): Promise<Image>;
-    rotate90(image: Image): Promise<Image>;
-    rotate180(image: Image): Promise<Image>;
-    rotate270(image: Image): Promise<Image>;
-    save(image: Image, path: String): Promise<null>;
-    save_with_format(image: Image, path: String, format: sys.ImageFormat): Promise<null>;
+    invert(): Promise<Image>;
+    resize(args: sys.ResizeArgs): Promise<Image>;
+    thumbnail(args: sys.ThumbnailArgs): Promise<Image>;
+    blur(sigma: Number): Promise<Image>;
+    unsharpen(sigma: Number, threshold: Number): Promise<Image>;
+    filter3x3(kernel: sys.Kernel3x3): Promise<Image>;
+    adjust_contrast(contrast: Number): Promise<Image>;
+    brighten(value: Number): Promise<Image>;
+    huerotate(value: Number): Promise<Image>;
+    flipv(): Promise<Image>;
+    fliph(): Promise<Image>;
+    rotate90(): Promise<Image>;
+    rotate180(): Promise<Image>;
+    rotate270(): Promise<Image>;
+    save(path: String): Promise<null>;
+    save_with_format(path: String, format: sys.ImageFormat): Promise<null>;
     map_rgba(f: (x: number, y: number, px: Array<number>) => Array<number>): Promise<Image>;
     reduce_rgba<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: Array<number>) => T): Promise<T>;
     map_luma(f: (x: number, y: number, px: number) => number): Promise<Image>;
@@ -53,13 +53,13 @@ export declare class Image {
     morph_open(norm: "L1" | "LInf", k: Number): Promise<Image>;
     gaussian_noise(mean: Number, stddev: Number, seed: Number): Promise<Image>;
     salt_and_pepper_noise(rate: Number, seed: Number): Promise<Image>;
-    connected_components(conn: "Four" | "Eight", background: Number): Promise<Image>;
+    connected_components(conn: "Four" | "Eight", background: Number): Promise<GrayImageU32>;
     shrink_width(target_width: Number): Promise<Image>;
 }
 export declare class GrayImageU32 {
     private handle;
     constructor(x: sys.GrayImageU32);
-    map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32>;
-    reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T>;
-    grayimage_u32_to_image(image: GrayImageU32): Promise<Image>;
+    map_luma(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32>;
+    reduce_luma<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T>;
+    grayimage_u32_to_image(): Promise<Image>;
 }
