@@ -183,7 +183,7 @@ pub fn open(
 ) -> Result<NapiValue, String> {
     type Input = String;
     type Output = Result<Image, String>;
-    let input = from_napi_value::<String>(env, path)?;
+    let input: Input = from_napi_value::<String>(env, path)?;
     fn compute(path: Input) -> Output {
         let image = ::image::open(&path).map_err(|e| format!("{}", e))?;
         Ok(Image::new(image))
@@ -200,11 +200,14 @@ pub fn open_with_format(
     path: NapiValue,
     format: NapiValue,
 ) -> Result<NapiValue, String> {
-    type Input = (PathBuf, ::image::ImageFormat);
+    type Input = (String, ::image::ImageFormat);
     type Output = Result<Image, String>;
-    let input_path = PathBuf::from(from_napi_value::<String>(env, path)?);
-    let input_format = parse_image_format(&from_napi_value::<String>(env, path)?);
-    let input = (input_path, input_format);
+    
+    let input_path = from_napi_value::<String>(env, path)?;
+    let input_format = from_napi_value::<String>(env, format)?;
+    let input_format = parse_image_format(&input_format)?;
+    let input: Input = (input_path, input_format);
+
     fn compute(data: Input) -> Output {
         let file = std::fs::read(&data.0)
             .map_err(|x| format!("{}", x))?;
@@ -234,7 +237,7 @@ pub fn new(
 ) -> Result<NapiValue, String> {
     type Input = NewArgs;
     type Output = Image;
-    let input = from_napi_value(env, args)?;
+    let input: Input = from_napi_value(env, args)?;
     fn compute(data: Input) -> Output {
         let NewArgs{width, height, pixel_type} = data.clone();
             let output = match pixel_type.to_lowercase().as_str() {
@@ -263,7 +266,7 @@ pub fn dimensions(
 ) -> Result<NapiValue, String> {
     type Input = Image;
     type Output = Resolution;
-    let input = Image::from_napi_value(env, image)?;
+    let input: Input = Image::from_napi_value(env, image)?;
     fn compute(data: Input) -> Output {
         let (width, height) = data.0.dimensions();
         Resolution{width, height}
@@ -290,7 +293,7 @@ pub fn crop(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let CropArgs{cx,cy,width,height} = data.1;
         let mut image = (data.0).0.as_ref().clone();
@@ -315,7 +318,7 @@ pub fn color(
 ) -> Result<NapiValue, String> {
     type Input = Image;
     type Output = ColorInfo;
-    let input = Image::from_napi_value(env, image)?;
+    let input: Input = Image::from_napi_value(env, image)?;
     fn compute(data: Input) -> Output {
         match data.0.color() {
             ::image::ColorType::Gray(x) => ColorInfo {
@@ -360,7 +363,7 @@ pub fn grayscale(
 ) -> Result<NapiValue, String> {
     type Input = Image;
     type Output = Image;
-    let input = Image::from_napi_value(env, image)?;
+    let input: Input = Image::from_napi_value(env, image)?;
     fn compute(data: Input) -> Output {
         Image::new(data.0.grayscale())
     }
@@ -377,7 +380,7 @@ pub fn invert(
 ) -> Result<NapiValue, String> {
     type Input = Image;
     type Output = Image;
-    let input = Image::from_napi_value(env, image)?;
+    let input: Input = Image::from_napi_value(env, image)?;
     fn compute(data: Input) -> Output {
         let mut x = data.0.as_ref().clone();
         x.invert();
@@ -408,7 +411,7 @@ pub fn resize(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let ResizeArgs{width,height,filter_type,resize_exact} = data.1.clone();
         let filter_type = match filter_type.to_lowercase().as_ref() {
@@ -448,7 +451,7 @@ pub fn thumbnail(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let ThumbnailArgs{width,height,resize_exact} = data.1.clone();
         let new_image = if resize_exact {
@@ -479,7 +482,7 @@ pub fn blur(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<f32>(env, sigma)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         Image::new((data.0).0.blur(data.1))
     }
@@ -502,7 +505,7 @@ pub fn unsharpen(
     let input_image = Image::from_napi_value(env, image)?;
     let input_sigma = from_napi_value::<f32>(env, sigma)?;
     let input_threshold = from_napi_value::<i32>(env, threshold)?;
-    let input = (input_image, input_sigma, input_threshold);
+    let input: Input = (input_image, input_sigma, input_threshold);
     fn compute(data: Input) -> Output {
         Image::new((data.0).0.unsharpen(data.1, data.2))
     }
@@ -525,7 +528,7 @@ pub fn filter3x3(
     if input_kernel.len() != 9 {
         return Err(String::from("filter must be 3 x 3 (9 element array)"));
     }
-    let input = (input_image, input_kernel);
+    let input: Input = (input_image, input_kernel);
     fn compute(data: Input) -> Output {
         Image::new((data.0).0.filter3x3(&data.1))
     }
@@ -545,7 +548,7 @@ pub fn adjust_contrast(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<f32>(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let contrast = data.1.clone();
         Image::new((data.0).0.adjust_contrast(contrast))
@@ -566,7 +569,7 @@ pub fn brighten(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<i32>(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let value = data.1.clone();
         Image::new((data.0).0.brighten(value))
@@ -587,7 +590,7 @@ pub fn huerotate(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<i32>(env, args)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let value = data.1.clone();
         Image::new((data.0).0.huerotate(value))
@@ -606,7 +609,7 @@ pub fn flipv(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = input_image;
+    let input: Input = input_image;
     fn compute(data: Input) -> Output {
         Image::new(data.0.flipv())
     }
@@ -624,7 +627,7 @@ pub fn fliph(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = input_image;
+    let input: Input = input_image;
     fn compute(data: Input) -> Output {
         Image::new(data.0.fliph())
     }
@@ -642,7 +645,7 @@ pub fn rotate90(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = input_image;
+    let input: Input = input_image;
     fn compute(data: Input) -> Output {
         Image::new(data.0.rotate90())
     }
@@ -660,7 +663,7 @@ pub fn rotate180(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = input_image;
+    let input: Input = input_image;
     fn compute(data: Input) -> Output {
         Image::new(data.0.rotate180())
     }
@@ -678,7 +681,7 @@ pub fn rotate270(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = input_image;
+    let input: Input = input_image;
     fn compute(data: Input) -> Output {
         Image::new(data.0.rotate270())
     }
@@ -698,7 +701,7 @@ pub fn save(
     type Output = Result<(), String>;
     let input_image = Image::from_napi_value(env, image)?;
     let input_path = from_napi_value(env, path)?;
-    let input = (input_image, input_path);
+    let input: Input = (input_image, input_path);
     fn compute(data: Input) -> Result<(), String> {
         let path = data.1.clone();
         (data.0).0
@@ -724,7 +727,7 @@ pub fn save_with_format(
     let input_path = from_napi_value(env, path)?;
     let input_format = from_napi_value::<String>(env, format)
         .and_then(|x| parse_image_format(&x))?;
-    let input = (input_image, input_path, input_format);
+    let input: Input = (input_image, input_path, input_format);
     fn compute(data: Input) -> Result<(), String> {
         let path = data.1.clone();
         let format = data.2.clone();
@@ -1156,7 +1159,7 @@ pub fn grayimage_u32_to_image(
 ) -> Result<NapiValue, String> {
     type Input = GrayImageU32;
     type Output = Image;
-    let input = GrayImageU32::from_napi_value(env, image)?;
+    let input: Input = GrayImageU32::from_napi_value(env, image)?;
     fn compute(data: Input) -> Output {
         fn random_color_map(keys: HashSet<u32>) -> HashMap<u32, image::Rgb<u8>> {
             use colourado::{Color, ColorPalette, PaletteType};
@@ -1220,7 +1223,7 @@ pub fn adaptive_threshold(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_arg = from_napi_value::<u32>(env, block_radius)?;
-    let input = (input_image, input_arg);
+    let input: Input = (input_image, input_arg);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1243,7 +1246,7 @@ pub fn equalize_histogram(
     type Input = Image;
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = (input_image);
+    let input: Input = (input_image);
     fn compute(data: Input) -> Output {
         let source = (data.0).as_ref();
         let result = match source.as_luma8() {
@@ -1268,7 +1271,7 @@ pub fn match_histogram(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_arg = Image::from_napi_value(env, target)?;
-    let input = (input_image, input_arg);
+    let input: Input = (input_image, input_arg);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let target = (data.0).0.as_ref();
@@ -1292,7 +1295,7 @@ pub fn otsu_level(
     type Input = Image;
     type Output = u8;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = (input_image);
+    let input: Input = (input_image);
     fn compute(data: Input) -> Output {
         let source = (data.0).as_ref();
         let result = match source.as_luma8() {
@@ -1316,9 +1319,9 @@ pub fn stretch_contrast(
     type Input = (Image, u8, u8);
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input_lower = from_napi_value::<u32>(env, lower)?;
-    let input_upper = from_napi_value::<u32>(env, upper)?;
-    let input = (input_image, input_lower, input_upper);
+    let input_lower = from_napi_value::<u8>(env, lower)?;
+    let input_upper = from_napi_value::<u8>(env, upper)?;
+    let input: Input = (input_image, input_lower, input_upper);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1340,11 +1343,11 @@ pub fn threshold(
     image: NapiValue,
     thresh: NapiValue,
 ) -> Result<NapiValue, String> {
-    type Input = (Image, u8, u8);
+    type Input = (Image, u8);
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input_args = from_napi_value::<u32>(env, thresh)?;
-    let input = (input_image, input_args);
+    let input_args = from_napi_value::<u8>(env, thresh)?;
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1386,7 +1389,7 @@ pub fn distance_transform(
             return Err(String::from("invalid norm value"));
         }
     };
-    let input = (input_image, input_arg);
+    let input: Input = (input_image, input_arg);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1424,7 +1427,7 @@ pub fn canny(
     let input_image = Image::from_napi_value(env, image)?;
     let low_threshold = from_napi_value::<f32>(env, low_threshold)?;
     let high_threshold = from_napi_value::<f32>(env, high_threshold)?;
-    let input = (input_image, low_threshold, high_threshold);
+    let input: Input = (input_image, low_threshold, high_threshold);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1456,7 +1459,7 @@ pub fn box_filter(
     let input_image = Image::from_napi_value(env, image)?;
     let low_threshold = from_napi_value::<u32>(env, x_radius)?;
     let high_threshold = from_napi_value::<u32>(env, y_radius)?;
-    let input = (input_image, low_threshold, high_threshold);
+    let input: Input = (input_image, low_threshold, high_threshold);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1481,7 +1484,7 @@ pub fn gaussian_blur_f32(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let sigma = from_napi_value::<f32>(env, sigma)?;
-    let input = (input_image, sigma);
+    let input: Input = (input_image, sigma);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1507,7 +1510,7 @@ pub fn horizontal_filter(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<Vec<u8>>(env, args)?;
-    let input = (input_image, args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1542,7 +1545,7 @@ pub fn median_filter(
     let input_image = Image::from_napi_value(env, image)?;
     let x_radius = from_napi_value::<u32>(env, x_radius)?;
     let y_radius = from_napi_value::<u32>(env, y_radius)?;
-    let input = (input_image, x_radius, y_radius);
+    let input: Input = (input_image, x_radius, y_radius);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1577,7 +1580,7 @@ pub fn separable_filter(
     let input_image = Image::from_napi_value(env, image)?;
     let x_radius = from_napi_value::<Vec<u8>>(env, h_kernel)?;
     let y_radius = from_napi_value::<Vec<u8>>(env, v_kernel)?;
-    let input = (input_image, x_radius, y_radius);
+    let input: Input = (input_image, x_radius, y_radius);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1610,7 +1613,7 @@ pub fn separable_filter_equal(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<Vec<u8>>(env, kernel)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1641,7 +1644,7 @@ pub fn sharpen3x3(
     type Input = (Image);
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let input = (input_image);
+    let input: Input = (input_image);
     fn compute(data: Input) -> Output {
         let source = (data.0).as_ref();
         let result = match source.as_luma8() {
@@ -1668,7 +1671,7 @@ pub fn sharpen_gaussian(
     let input_image = Image::from_napi_value(env, image)?;
     let sigma = from_napi_value::<f32>(env, sigma)?;
     let amount = from_napi_value::<f32>(env, amount)?;
-    let input = (input_image, sigma, amount);
+    let input: Input = (input_image, sigma, amount);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1693,7 +1696,7 @@ pub fn vertical_filter(
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
     let input_args = from_napi_value::<Vec<u8>>(env, kernel)?;
-    let input = (input_image, input_args);
+    let input: Input = (input_image, input_args);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1786,7 +1789,7 @@ pub fn morph_close(
         }
     };
     let input_k = from_napi_value::<u8>(env, k)?;
-    let input = (input_image, input_norm, input_k);
+    let input: Input = (input_image, input_norm, input_k);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1820,7 +1823,7 @@ pub fn morph_dilate(
         }
     };
     let input_k = from_napi_value::<u8>(env, k)?;
-    let input = (input_image, input_norm, input_k);
+    let input: Input = (input_image, input_norm, input_k);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1854,7 +1857,7 @@ pub fn morph_erode(
         }
     };
     let input_k = from_napi_value::<u8>(env, k)?;
-    let input = (input_image, input_norm, input_k);
+    let input: Input = (input_image, input_norm, input_k);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1888,7 +1891,7 @@ pub fn morph_open(
         }
     };
     let input_k = from_napi_value::<u8>(env, k)?;
-    let input = (input_image, input_norm, input_k);
+    let input: Input = (input_image, input_norm, input_k);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -1923,7 +1926,7 @@ pub fn gaussian_noise(
     let input_mean = from_napi_value::<f64>(env, mean)?;
     let input_stddev = from_napi_value::<f64>(env, stddev)?;
     let input_seed = from_napi_value::<u64>(env, seed)?;
-    let input = (input_image, input_mean, input_stddev, input_seed);
+    let input: Input = (input_image, input_mean, input_stddev, input_seed);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -1958,7 +1961,7 @@ pub fn salt_and_pepper_noise(
     let input_image = Image::from_napi_value(env, image)?;
     let input_rate = from_napi_value::<f64>(env, rate)?;
     let input_seed = from_napi_value::<u64>(env, seed)?;
-    let input = (input_image, input_rate, input_seed);
+    let input: Input = (input_image, input_rate, input_seed);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {
@@ -2020,7 +2023,7 @@ pub fn connected_components(
         }
     };
     let input_k = from_napi_value::<u8>(env, background)?;
-    let input = (input_image, input_conn, input_k);
+    let input: Input = (input_image, input_conn, input_k);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         let result = match source.as_luma8() {
@@ -2049,8 +2052,8 @@ pub fn shrink_width(
     type Input = (Image, u32);
     type Output = Image;
     let input_image = Image::from_napi_value(env, image)?;
-    let target_width = from_napi_value::<u64>(env, target_width)?;
-    let input = (input_image, target_width);
+    let target_width = from_napi_value::<u32>(env, target_width)?;
+    let input: Input = (input_image, target_width);
     fn compute(data: Input) -> Output {
         let source = (data.0).0.as_ref();
         if source.as_luma8().is_some() {

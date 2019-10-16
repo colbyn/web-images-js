@@ -1,8 +1,9 @@
 import * as sys from "./sys";
+export {ImageFormat, Kernel3x3} from "./sys";
 
 export class Image {
-    readonly handle!: sys.Image;
-    private constructor(x: sys.Image) {
+    private handle!: sys.Image;
+    constructor(x: sys.Image) {
         this.handle = x;
     }
 
@@ -20,7 +21,7 @@ export class Image {
         return new Image(img);
     }
 
-    static async new_image(width: Number, height: Number, pixel_type: "rgba" | "rgb" | "luma"): Promise<Image> {
+    static async create(width: Number, height: Number, pixel_type: "rgba" | "rgb" | "luma"): Promise<Image> {
         let img = await sys.new_image({width, height, pixel_type});
         return new Image(img);
     }
@@ -440,8 +441,8 @@ export class Image {
 
 
 export class GrayImageU32 {
-    readonly handle!: sys.GrayImageU32;
-    private constructor(x: sys.GrayImageU32) {
+    private handle!: sys.GrayImageU32;
+    constructor(x: sys.GrayImageU32) {
         this.handle = x;
     }
 
@@ -449,22 +450,25 @@ export class GrayImageU32 {
     // TRAVERSAL
     ///////////////////////////////////////////////////////////////////////////
 
-    // async map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32> {
-    //     throw "todo"
-    // }
+    async map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32> {
+        return sys
+            .grayimage_u32_map(this.handle, f)
+            .then(x => new GrayImageU32(x));
+    }
 
-
-    // async reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T> {
-    //     throw "todo"
-    // }
+    async reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T> {
+        return sys.grayimage_u32_reduce(this.handle, initial_value, f);
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
     // CONVERSION
     ///////////////////////////////////////////////////////////////////////////
 
-    grayimage_u32_to_image(image: GrayImageU32): Promise<Image> {
-        throw "todo";
+    async grayimage_u32_to_image(image: GrayImageU32): Promise<Image> {
+        return sys
+            .grayimage_u32_to_image(this.handle)
+            .then(x => new Image(x));
     }
 }
 

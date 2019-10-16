@@ -43,11 +43,11 @@ export type ImageFormat = "jpeg" | "jpg" | "png" | "gif" | "webp" | "pnm" | "tif
 // IMAGE METHODS - CORE
 ///////////////////////////////////////////////////////////////////////////////
 
-export function open(path: string): Promise<Image> {
+export function open(path: String): Promise<Image> {
     return foreign.image_open(path);
 }
 
-export function open_with_format(path: string, format: ImageFormat): Promise<Image> {
+export function open_with_format(path: String, format: ImageFormat): Promise<Image> {
     return foreign.image_open_with_format(path, format);
 }
 

@@ -125,8 +125,9 @@ macro_rules! offload_work {
             let input: $in_ty = input.expect("offload_work macro and offload_work_impl failed");
             data.output = Some(f(input));
         }
+        let input: $in_ty = $input;
         let output = unsafe {
-            offload_work_impl($env, $input, on_exec, $finalize)
+            offload_work_impl($env, input, on_exec, $finalize)
         };
         output
     }};
@@ -146,6 +147,9 @@ impl JsObject {
         self.0
     }
     pub fn from_raw(env: NapiEnv, value: NapiValue) -> Result<Self, String> {
+        if value.is_null() {
+            return Err(String::from("invalid argument"));
+        }
         let value_type = get_value_type(env, value)?;
         if value_type == NAPI_OBJECT {
             Ok(JsObject(value))
@@ -680,6 +684,8 @@ impl<Func> ModuleExportable<NapiValue, ()> for Func where Func: Fn(NapiEnv, Napi
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv);
@@ -711,6 +717,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue)+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1]);
@@ -736,6 +744,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue)+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1], argv[2]);
@@ -761,6 +771,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue, NapiValue)+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1], argv[2], argv[4]);
@@ -786,6 +798,8 @@ where Func: Fn(NapiEnv, NapiValue)->NapiValue+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0])
@@ -810,6 +824,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue)->NapiValue+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1])
@@ -834,6 +850,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue)->NapiValue+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1], argv[2])
@@ -858,6 +876,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue, NapiValue)->NapiValue+'
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             (self)(env, argv[0], argv[1], argv[2], argv[3])
@@ -901,6 +921,8 @@ where Func: Fn(NapiEnv, NapiValue)->Option<NapiValue>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0]) {
@@ -928,6 +950,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue)->Option<NapiValue>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1]) {
@@ -955,6 +979,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue)->Option<NapiValue>+'sta
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2]) {
@@ -982,6 +1008,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue, NapiValue)->Option<Napi
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2], argv[3]) {
@@ -1021,8 +1049,8 @@ where Func: Fn(NapiEnv, NapiValue)->Result<NapiValue, String>+'static
     fn call_module_export(self, env: NapiEnv, info: NapiCallbackInfo) -> NapiValue {
         unsafe {
             let mut argc = 1;
-            let mut argv: [NapiValue; 1] = std::mem::uninitialized();
-            let mut raw_this = std::ptr::null_mut();
+            let mut argv: [NapiValue; 1] = std::mem::zeroed();
+            let mut raw_this: NapiValue = std::mem::uninitialized();
             let result = napi_get_cb_info(
                 env,
                 info,
@@ -1032,6 +1060,8 @@ where Func: Fn(NapiEnv, NapiValue)->Result<NapiValue, String>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0]) {
@@ -1062,6 +1092,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue)->Result<NapiValue, String>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1]) {
@@ -1092,6 +1124,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue)->Result<NapiValue, Stri
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2]) {
@@ -1122,6 +1156,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue, NapiValue)->Result<Napi
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2], argv[3]) {
@@ -1173,6 +1209,8 @@ where Func: Fn(NapiEnv, NapiValue)->Result<(), String>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0]) {
@@ -1203,6 +1241,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue)->Result<(), String>+'static
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1]) {
@@ -1233,6 +1273,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue)->Result<(), String>+'st
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2]) {
@@ -1263,6 +1305,8 @@ where Func: Fn(NapiEnv, NapiValue, NapiValue, NapiValue, NapiValue)->Result<(), 
                 std::ptr::null_mut(),
             );
             if result != NAPI_OK {
+                eprintln!("napi_get_cb_info failed");
+                throw_error(env, "module call failed");
                 return std::ptr::null_mut();
             }
             match (self)(env, argv[0], argv[1], argv[2], argv[3]) {
@@ -1362,8 +1406,8 @@ macro_rules! library_exports {
                 let mut results: Vec<Result<(), ()>> = Vec::new();
                 let add_method = |name: &str, callback: RawExportFnSignature| -> Result<(), ()> {
                     let callback_name = std::ffi::CString::new(name).expect("CString::new failed");
-                    let mut js_function: NapiValue = std::mem::zeroed();
-                    let result = napi_create_function(
+                    let mut js_function: NapiValue = std::mem::uninitialized();
+                    let status = napi_create_function(
                         env,
                         std::ptr::null(),
                         napi_sys_dev::NAPI_AUTO_LENGTH as usize,
@@ -1371,16 +1415,16 @@ macro_rules! library_exports {
                         std::ptr::null_mut(),
                         &mut js_function
                     );
-                    if result != NAPI_OK {
+                    if status != NAPI_OK {
                         return Err(());
                     }
-                    let result = napi_set_named_property(
+                    let status = napi_set_named_property(
                         env,
                         export,
                         callback_name.as_ptr(),
                         js_function
                     );
-                    if result != NAPI_OK {
+                    if status != NAPI_OK {
                         return Err(());
                     }
                     Ok(())

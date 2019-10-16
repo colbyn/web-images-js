@@ -3,6 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "ImageFormat", {
+  enumerable: true,
+  get: function () {
+    return sys.ImageFormat;
+  }
+});
+Object.defineProperty(exports, "Kernel3x3", {
+  enumerable: true,
+  get: function () {
+    return sys.Kernel3x3;
+  }
+});
 exports.GrayImageU32 = exports.Image = void 0;
 
 var sys = _interopRequireWildcard(require("./sys"));
@@ -33,7 +45,7 @@ class Image {
     return new Image(img);
   }
 
-  static async new_image(width, height, pixel_type) {
+  static async create(width, height, pixel_type) {
     let img = await sys.new_image({
       width,
       height,
@@ -334,19 +346,21 @@ class GrayImageU32 {
   } ///////////////////////////////////////////////////////////////////////////
   // TRAVERSAL
   ///////////////////////////////////////////////////////////////////////////
-  // async map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32> {
-  //     throw "todo"
-  // }
-  // async reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T> {
-  //     throw "todo"
-  // }
-  ///////////////////////////////////////////////////////////////////////////
+
+
+  async map(f) {
+    return sys.grayimage_u32_map(this.handle, f).then(x => new GrayImageU32(x));
+  }
+
+  async reduce(initial_value, f) {
+    return sys.grayimage_u32_reduce(this.handle, initial_value, f);
+  } ///////////////////////////////////////////////////////////////////////////
   // CONVERSION
   ///////////////////////////////////////////////////////////////////////////
 
 
-  grayimage_u32_to_image(image) {
-    throw "todo";
+  async grayimage_u32_to_image(image) {
+    return sys.grayimage_u32_to_image(this.handle).then(x => new Image(x));
   }
 
 } ///////////////////////////////////////////////////////////////////////////////

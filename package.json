@@ -2,11 +2,12 @@
   "name": "web-images-node-ll",
   "version": "0.0.0",
   "scripts": {
-    "napi-build": "cargo build --release && node-gyp rebuild",
-    "ts-build": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
-    "invoke": "node --expose-gc dist/index.js",
-    "start": "npm run napi-build && npm run ts-build && npm run ts:decls && npm run invoke",
-    "ts:decls": "tsc --declaration --outDir dist --emitDeclarationOnly"
+    "build:napi": "cargo build --release && node-gyp rebuild",
+    "build:ts": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
+    "build:ts:decl": "tsc --declaration --outDir dist --emitDeclarationOnly",
+    "build": "npm run build:napi && npm run build:ts && npm run build:ts:decl",
+    "start": "npm run build && node dist/main.js",
+    "test": "npm run build && ./node_modules/.bin/jest"
   },
   "devDependencies": {
     "@babel/cli": "^7",
@@ -20,6 +21,7 @@
     "babel-preset-env": "^1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4",
     "webpack": "^4",
     "webpack-cli": "^3",
     "webpack-merge": "^4"

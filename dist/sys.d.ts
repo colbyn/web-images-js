@@ -23,8 +23,8 @@ export interface Resolution {
     readonly height: Number;
 }
 export declare type ImageFormat = "jpeg" | "jpg" | "png" | "gif" | "webp" | "pnm" | "tiff" | "tga" | "bmp" | "ico" | "hdr";
-export declare function open(path: string): Promise<Image>;
-export declare function open_with_format(path: string, format: ImageFormat): Promise<Image>;
+export declare function open(path: String): Promise<Image>;
+export declare function open_with_format(path: String, format: ImageFormat): Promise<Image>;
 export interface NewArgs {
     width: Number;
     height: Number;

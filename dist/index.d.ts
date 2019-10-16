@@ -1,10 +1,11 @@
 import * as sys from "./sys";
+export { ImageFormat, Kernel3x3 } from "./sys";
 export declare class Image {
-    readonly handle: sys.Image;
-    private constructor();
+    private handle;
+    constructor(x: sys.Image);
     static open(path: string): Promise<Image>;
     static open_with_format(path: string, format: sys.ImageFormat): Promise<Image>;
-    static new_image(width: Number, height: Number, pixel_type: "rgba" | "rgb" | "luma"): Promise<Image>;
+    static create(width: Number, height: Number, pixel_type: "rgba" | "rgb" | "luma"): Promise<Image>;
     dimensions(): Promise<sys.Resolution>;
     crop(cx: Number, cy: Number, width: Number, height: Number): Promise<Image>;
     color(): Promise<sys.ColorInfo>;
@@ -56,7 +57,9 @@ export declare class Image {
     shrink_width(target_width: Number): Promise<Image>;
 }
 export declare class GrayImageU32 {
-    readonly handle: sys.GrayImageU32;
-    private constructor();
+    private handle;
+    constructor(x: sys.GrayImageU32);
+    map(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32>;
+    reduce<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T>;
     grayimage_u32_to_image(image: GrayImageU32): Promise<Image>;
 }
