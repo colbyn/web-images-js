@@ -1,0 +1,25 @@
+{
+  "name": "web-images-node-ll",
+  "version": "0.0.0",
+  "scripts": {
+    "napi-build": "cargo build --release && node-gyp rebuild",
+    "ts-build": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
+    "invoke": "node --expose-gc dist/index.js",
+    "start": "npm run napi-build && npm run ts-build && npm run invoke"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-proposal-class-properties": "^7",
+    "@babel/polyfill": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-typescript": "^7",
+    "@types/node": "^12.7.12",
+    "babel-preset-env": "^1",
+    "webpack": "^4",
+    "webpack-cli": "^3",
+    "webpack-merge": "^4"
+  },
+  "gypfile": true,
+  "private": true
+}

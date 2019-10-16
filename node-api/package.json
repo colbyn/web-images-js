@@ -1,0 +1,27 @@
+{
+  "name": "web-images",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "watch": "./node_modules/.bin/babel --watch lib ---out-dir dist --extensions '.ts'",
+    "build": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts'"
+  },
+  "author": "Colbyn Wadman",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-proposal-class-properties": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-typescript": "^7",
+    "babel-preset-env": "^1",
+    "webpack": "^4",
+    "webpack-cli": "^3",
+    "webpack-merge": "^4",
+    "@babel/polyfill": "^7"
+  },
+  "dependencies": {
+    "ffi-napi": "^2.4.5"
+  }
+}
