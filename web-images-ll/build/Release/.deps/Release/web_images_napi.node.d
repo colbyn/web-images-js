@@ -1,1 +1,0 @@
-cmd_Release/web_images_napi.node := c++ -bundle -undefined dynamic_lookup -Wl,-no_pie -Wl,-search_paths_first -mmacosx-version-min=10.10 -arch x86_64 -L./Release -stdlib=libc++  -o Release/web_images_napi.node  /Users/colbyn/Projects/web-images/node-api-ll/target/release/libweb_images_napi.dylib

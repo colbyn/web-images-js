@@ -5,7 +5,8 @@
     "napi-build": "cargo build --release && node-gyp rebuild",
     "ts-build": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
     "invoke": "node --expose-gc dist/index.js",
-    "start": "npm run napi-build && npm run ts-build && npm run invoke"
+    "start": "npm run napi-build && npm run ts-build && npm run ts:decls && npm run invoke",
+    "ts:decls": "tsc --declaration --outDir dist --emitDeclarationOnly"
   },
   "devDependencies": {
     "@babel/cli": "^7",
@@ -14,12 +15,16 @@
     "@babel/polyfill": "^7",
     "@babel/preset-env": "^7",
     "@babel/preset-typescript": "^7",
+    "@types/jest": "^24.0.19",
     "@types/node": "^12.7.12",
     "babel-preset-env": "^1",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "webpack": "^4",
     "webpack-cli": "^3",
     "webpack-merge": "^4"
   },
   "gypfile": true,
-  "private": true
+  "private": true,
+  "types": "./dist/index.d.ts"
 }

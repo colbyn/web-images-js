@@ -1380,8 +1380,8 @@ pub fn distance_transform(
     let input_image = Image::from_napi_value(env, image)?;
     let input_arg = from_napi_value::<String>(env, norm)?;
     let input_arg = match input_arg.to_lowercase().as_ref() {
-        "L1" => ::imageproc::distance_transform::Norm::L1,
-        "LInf" => ::imageproc::distance_transform::Norm::LInf,
+        "l1" => ::imageproc::distance_transform::Norm::L1,
+        "linf" => ::imageproc::distance_transform::Norm::LInf,
         _ => {
             return Err(String::from("invalid norm value"));
         }

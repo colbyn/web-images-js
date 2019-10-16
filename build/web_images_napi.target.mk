@@ -32,7 +32,7 @@ LIBTOOLFLAGS_Release := \
 	-Wl,-search_paths_first
 
 LIBS := \
-	/Users/colbyn/Projects/web-images/node-api-ll/target/release/libweb_images_napi.dylib
+	/Users/colbyn/Projects/web-images/js-api/target/release/libweb_images_napi.dylib
 
 $(builddir)/web_images_napi.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(builddir)/web_images_napi.node: LIBS := $(LIBS)
