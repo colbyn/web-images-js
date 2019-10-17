@@ -32,7 +32,7 @@ LIBTOOLFLAGS_Release := \
 	-Wl,-search_paths_first
 
 LIBS := \
-	../target/release/libweb_images_napi.dylib
+	../target/x86_64-apple-darwin/release/libweb_images_napi.dylib
 
 $(builddir)/web_images_napi.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
 $(builddir)/web_images_napi.node: LIBS := $(LIBS)

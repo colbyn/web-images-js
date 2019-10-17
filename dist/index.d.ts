@@ -61,5 +61,5 @@ export declare class GrayImageU32 {
     constructor(x: sys.GrayImageU32);
     map_luma(f: (x: number, y: number, px: number) => number): Promise<GrayImageU32>;
     reduce_luma<T>(initial_value: T, f: (accumulator: T, x: number, y: number, px: number) => T): Promise<T>;
-    grayimage_u32_to_image(): Promise<Image>;
+    to_image(): Promise<Image>;
 }

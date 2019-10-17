@@ -5,8 +5,7 @@ authors = ["colbyn <hello@colbyn.com>"]
 edition = "2018"
 
 [lib]
-crate-type = ["cdylib"]
-# crate-type = ["staticlib", "cdylib"]
+crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 napi-sys-dev = "0.0.3"

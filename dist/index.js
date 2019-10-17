@@ -377,7 +377,7 @@ class GrayImageU32 {
   ///////////////////////////////////////////////////////////////////////////
 
 
-  async grayimage_u32_to_image() {
+  async to_image() {
     return sys.grayimage_u32_to_image(this.handle).then(x => new Image(x));
   }
 

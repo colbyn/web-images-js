@@ -211,5 +211,5 @@ test("GrayImageU32.reduce_luma", async () => {
   return _index.Image.create(100, 100, "rgba").then(x => x.connected_components("Four", 1)).then(x => x.reduce_luma(0, f));
 });
 test("GrayImageU32.grayimage_u32_to_image", async () => {
-  return _index.Image.create(100, 100, "rgba").then(x => x.connected_components("Four", 1)).then(x => x.grayimage_u32_to_image());
+  return _index.Image.create(100, 100, "rgba").then(x => x.connected_components("Four", 1)).then(x => x.to_image());
 });
