@@ -1,6 +1,7 @@
 {
   "name": "web-images",
-  "version": "0.0.9",
+  "version": "0.0.10",
+  "main": "dist/index.js",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
     "build:ts": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
