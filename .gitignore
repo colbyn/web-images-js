@@ -103,3 +103,4 @@ public
 .commands.out.sh
 /target
 **/*.rs.bk
+dist/
