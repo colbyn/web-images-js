@@ -1,6 +1,6 @@
 {
   "name": "web-images",
-  "version": "0.0.2",
+  "version": "0.0.9",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
     "build:ts": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
@@ -9,10 +9,11 @@
     "start": "npm run build",
     "test": "npm run build && ./node_modules/.bin/jest"
   },
-  "dependencies": {
-    "libweb_images_napi.dylib": "file://target/x86_64-apple-darwin/release/libweb_images_napi.dylib",
-    "libweb_images_napi.so": "target/x86_64-unknown-linux-gnu/release/libweb_images_napi.so"
-  },
+  "files": [
+    "target/x86_64-apple-darwin/release/libweb_images_napi.dylib",
+    "target/x86_64-unknown-linux-gnu/release/libweb_images_napi.so",
+    "dist/**/*.*"
+  ],
   "devDependencies": {
     "@babel/cli": "^7",
     "@babel/core": "^7",
