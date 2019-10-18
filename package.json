@@ -2,6 +2,11 @@
   "name": "web-images",
   "version": "0.0.13",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/colbyn/web-images-js"
+  },
+  "homepage": "https://github.com/colbyn/web-images-js",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
     "build:ts": "./node_modules/.bin/babel lib --out-dir dist --extensions '.ts','.js'",
@@ -11,7 +16,7 @@
     "test": "npm run build && ./node_modules/.bin/jest",
     "release": "npm run build && npm publish",
     "postinstall": "node_modules/.bin/node-gyp rebuild",
-    "doc": "node_modules/.bin/typedoc --entryPoint ./lib/index.ts --exclude ./lib/index.test.ts --out docs ./lib"
+    "doc": "node_modules/.bin/typedoc --mode file --theme minimal --entryPoint index.Image --exclude ./lib/index.test.ts --out docs ./lib"
   },
   "files": [
     "target/x86_64-apple-darwin/release/libweb_images_napi.dylib",
