@@ -1,6 +1,6 @@
 {
   "name": "web-images",
-  "version": "0.0.10",
+  "version": "0.0.13",
   "main": "dist/index.js",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
@@ -8,12 +8,16 @@
     "build:ts:decl": "./node_modules/.bin/tsc --declaration --outDir dist --emitDeclarationOnly",
     "build": "npm run build:napi && npm run build:ts && npm run build:ts:decl",
     "start": "npm run build",
-    "test": "npm run build && ./node_modules/.bin/jest"
+    "test": "npm run build && ./node_modules/.bin/jest",
+    "release": "npm run build && npm publish",
+    "postinstall": "node_modules/.bin/node-gyp rebuild",
+    "doc": "node_modules/.bin/typedoc --entryPoint ./lib/index.ts --exclude ./lib/index.test.ts --out docs ./lib"
   },
   "files": [
     "target/x86_64-apple-darwin/release/libweb_images_napi.dylib",
     "target/x86_64-unknown-linux-gnu/release/libweb_images_napi.so",
-    "dist/**/*.*"
+    "dist/**/*.*",
+    "binding.gyp"
   ],
   "devDependencies": {
     "@babel/cli": "^7",
@@ -28,6 +32,7 @@
     "jest": "^24.9.0",
     "node-gyp": "^6.0.0",
     "ts-jest": "^24.1.0",
+    "typedoc": "^0.15.0",
     "typescript": "^3.6.4",
     "webpack": "^4",
     "webpack-cli": "^3",

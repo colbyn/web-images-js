@@ -3,6 +3,7 @@ name = "web-images-napi"
 version = "0.0.0"
 authors = ["colbyn <hello@colbyn.com>"]
 edition = "2018"
+publish = false
 
 [lib]
 crate-type = ["staticlib", "cdylib"]

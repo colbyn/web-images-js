@@ -212,11 +212,11 @@ pub fn to_external<T>(env: NapiEnv, data: T) -> NapiValue {
         finalize_data: *mut std::os::raw::c_void,
         finalize_hint: *mut std::os::raw::c_void,
     ) {
-        println!("finalize_value: called");
+        // println!("finalize_value: called");
         assert!(!finalize_data.is_null());
         let data = Box::from_raw(finalize_data as *mut T);
         std::mem::drop(data);
-        println!("finalize_value: done!");
+        // println!("finalize_value: done!");
     }
     unsafe {
         let data = Box::new(data);

@@ -104,3 +104,6 @@ public
 /target
 **/*.rs.bk
 dist/
+README.md
+
+docs/
