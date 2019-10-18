@@ -55,11 +55,29 @@ test("Image.resize", async () => {
         .then(x => x.resize(resize_args));
 });
 
+test("Image.resize [minimal required arguments]", async () => {
+    let resize_args: ResizeArgs = {
+        width: 50,
+        height: 50,
+    };
+    return Image.create(100, 100, "rgba")
+        .then(x => x.resize(resize_args));
+});
+
 test("Image.thumbnail", async () => {
     let thumbnail_args: ThumbnailArgs = {
         width: 50,
         height: 50,
         resize_exact: true,
+    };
+    return Image.create(100, 100, "rgba")
+        .then(x => x.thumbnail(thumbnail_args));
+});
+
+test("Image.thumbnail [minimal required arguments]", async () => {
+    let thumbnail_args: ThumbnailArgs = {
+        width: 50,
+        height: 50,
     };
     return Image.create(100, 100, "rgba")
         .then(x => x.thumbnail(thumbnail_args));

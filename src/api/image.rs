@@ -440,6 +440,7 @@ pub fn resize(
 pub struct ThumbnailArgs {
     width: u32,
     height: u32,
+    #[serde(default)]
     resize_exact: bool,
 }
 pub fn thumbnail(
