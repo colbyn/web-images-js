@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResizeArgs | web-images</title>
+	<title>&quot;data&quot; | web-images</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,92 +56,60 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sys_.html">&quot;sys&quot;</a>
-				</li>
-				<li>
-					<a href="_sys_.resizeargs.html">ResizeArgs</a>
+					<a href="_data_.html">&quot;data&quot;</a>
 				</li>
 			</ul>
-			<h1>Interface ResizeArgs</h1>
+			<h1>External module &quot;data&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">ResizeArgs</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.resizeargs.html#filter_type" class="tsd-kind-icon">filter_<wbr>type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.resizeargs.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.resizeargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.resizeargs.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.colorinfo.html" class="tsd-kind-icon">Color<wbr>Info</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.cropargs.html" class="tsd-kind-icon">Crop<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.newargs.html" class="tsd-kind-icon">New<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.resizeargs.html" class="tsd-kind-icon">Resize<wbr>Args</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.resolution.html" class="tsd-kind-icon">Resolution</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_data_.thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_data_.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_data_.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="filter_type" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter_<wbr>type</h3>
-					<div class="tsd-signature tsd-kind-icon">filter_<wbr>type<span class="tsd-signature-symbol">:</span> <a href="../modules/_sys_.html#filtertype" class="tsd-signature-type">FilterType</a></div>
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="filtertype" class="tsd-anchor"></a>
+					<h3>Filter<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Filter<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Nearest"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Triangle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CatmullRom"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Gaussian"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Lanczos3"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L140">sys.ts:140</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>For best results (quality wise) use &quot;Lanczos3&quot;.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L136">sys.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L7">data.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="resize_exact" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> resize_<wbr>exact</h3>
-					<div class="tsd-signature tsd-kind-icon">resize_<wbr>exact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="imageformat" class="tsd-anchor"></a>
+					<h3>Image<wbr>Format</h3>
+					<div class="tsd-signature tsd-kind-icon">Image<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"jpeg"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"jpg"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"png"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"webp"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pnm"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"tiff"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"tga"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"bmp"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ico"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hdr"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L144">sys.ts:144</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>If set to true, the image&#39;s aspect ratio is NOT preserved.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3>width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L135">sys.ts:135</a></li>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L6">data.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,37 +121,43 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_index_.html">"index"</a>
-					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_sys_.html">"sys"</a>
+						<a href="_data_.html">"data"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_sys_.html">"sys"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_sys_.resizeargs.html" class="tsd-kind-icon">Resize<wbr>Args</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.resizeargs.html#filter_type" class="tsd-kind-icon">filter_<wbr>type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.resizeargs.html#height" class="tsd-kind-icon">height</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.resizeargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.resizeargs.html#width" class="tsd-kind-icon">width</a>
-							</li>
-						</ul>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.colorinfo.html" class="tsd-kind-icon">Color<wbr>Info</a>
 					</li>
-				</ul>
-				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.cropargs.html" class="tsd-kind-icon">Crop<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.newargs.html" class="tsd-kind-icon">New<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.resizeargs.html" class="tsd-kind-icon">Resize<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.resolution.html" class="tsd-kind-icon">Resolution</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_data_.thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_data_.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_data_.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

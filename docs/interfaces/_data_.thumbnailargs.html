@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ColorInfo | web-images</title>
+	<title>ThumbnailArgs | web-images</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sys_.html">&quot;sys&quot;</a>
+					<a href="../modules/_data_.html">&quot;data&quot;</a>
 				</li>
 				<li>
-					<a href="_sys_.colorinfo.html">ColorInfo</a>
+					<a href="_data_.thumbnailargs.html">ThumbnailArgs</a>
 				</li>
 			</ul>
-			<h1>Interface ColorInfo</h1>
+			<h1>Interface ThumbnailArgs</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ColorInfo</span>
+						<span class="target">ThumbnailArgs</span>
 					</li>
 				</ul>
 			</section>
@@ -84,8 +84,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.colorinfo.html#bit_depth" class="tsd-kind-icon">bit_<wbr>depth</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.colorinfo.html#pixel_type" class="tsd-kind-icon">pixel_<wbr>type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.thumbnailargs.html#height" class="tsd-kind-icon">height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.thumbnailargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.thumbnailargs.html#width" class="tsd-kind-icon">width</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,22 +95,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="bit_depth" class="tsd-anchor"></a>
-					<h3>bit_<wbr>depth</h3>
-					<div class="tsd-signature tsd-kind-icon">bit_<wbr>depth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<a name="height" class="tsd-anchor"></a>
+					<h3>height</h3>
+					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L110">sys.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L30">data.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="pixel_type" class="tsd-anchor"></a>
-					<h3>pixel_<wbr>type</h3>
-					<div class="tsd-signature tsd-kind-icon">pixel_<wbr>type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">String</span></div>
+					<a name="resize_exact" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> resize_<wbr>exact</h3>
+					<div class="tsd-signature tsd-kind-icon">resize_<wbr>exact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/9703f8c/lib/sys.ts#L109">sys.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L34">data.ts:34</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If set to true, the image&#39;s aspect ratio is NOT preserved.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="width" class="tsd-anchor"></a>
+					<h3>width</h3>
+					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L29">data.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,31 +137,58 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_data_.html">"data"</a>
+					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_sys_.html">"sys"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.colorinfo.html" class="tsd-kind-icon">Color<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.cropargs.html" class="tsd-kind-icon">Crop<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.newargs.html" class="tsd-kind-icon">New<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.resizeargs.html" class="tsd-kind-icon">Resize<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.resolution.html" class="tsd-kind-icon">Resolution</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_sys_.colorinfo.html" class="tsd-kind-icon">Color<wbr>Info</a>
+						<a href="_data_.thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.colorinfo.html#bit_depth" class="tsd-kind-icon">bit_<wbr>depth</a>
+								<a href="_data_.thumbnailargs.html#height" class="tsd-kind-icon">height</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sys_.colorinfo.html#pixel_type" class="tsd-kind-icon">pixel_<wbr>type</a>
+								<a href="_data_.thumbnailargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_data_.thumbnailargs.html#width" class="tsd-kind-icon">width</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_data_.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_data_.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

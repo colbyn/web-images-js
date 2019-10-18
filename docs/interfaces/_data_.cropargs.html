@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>web-images</title>
+	<title>CropArgs | web-images</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">web-images</a>
+					<a href="../index.html" class="title">web-images</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -53,103 +53,151 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_data_.html">&quot;data&quot;</a>
+				</li>
+				<li>
+					<a href="_data_.cropargs.html">CropArgs</a>
 				</li>
 			</ul>
-			<h1> web-images</h1>
+			<h1>Interface CropArgs</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-					<h1>Example</h1>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {Image} <span class="hljs-keyword">from</span> <span class="hljs-string">"web-images"</span>;
-<span class="hljs-keyword">import</span> {basename} <span class="hljs-keyword">from</span> <span class="hljs-string">"path"</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">"fs"</span>;
-
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_and_save</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">null</span>&gt; </span>{
-    <span class="hljs-comment">// Assume `path` has a file extension set to “jpeg”.</span>
-    <span class="hljs-keyword">const</span> output_path = <span class="hljs-string">`./output/<span class="hljs-subst">${basename(path, <span class="hljs-string">"jpeg"</span>)}</span>.png`</span>;
-    <span class="hljs-keyword">return</span> Image
-        .open(path)
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
-            width: <span class="hljs-number">500</span>,
-            height: <span class="hljs-number">500</span>
-        }))
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.save(output_path))
-        .then(<span class="hljs-function">(<span class="hljs-params">_</span>) =&gt;</span> {
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"done"</span>);
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
-        });
-}
-
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_only</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">Image</span>&gt; </span>{
-    <span class="hljs-keyword">return</span> Image
-        .open(path)
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
-            width: <span class="hljs-number">500</span>,
-            height: <span class="hljs-number">500</span>,
-            resize_exact: <span class="hljs-literal">false</span>,
-            filter_type: <span class="hljs-string">"Lanczos3"</span>
-        }));
-}</code></pre>
-				<a href="#abstract" id="abstract" style="color: inherit; text-decoration: none;">
-					<h1>Abstract</h1>
-				</a>
-				<p>The bringin of the amazing <code>image</code> crate to the node.js ecosystem, and contributing to the infection of compiled architecture and OS specific binaries in NPM.</p>
-				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
-					<h1>Rationale</h1>
-				</a>
-				<a href="#1-license" id="1-license" style="color: inherit; text-decoration: none;">
-					<h2>1. License</h2>
-				</a>
-				<p>While e.g. the <strong>Sharp</strong> library is licensed under the Apache 2.0 License. It’s a wrapper around <code>libvips</code> which is <code>LGPLv3</code>. In contrast, Web Images is self contained and distributable under the MIT license.</p>
-				<p>Although this may, or may not be significant depending on your specific circumstances.</p>
-				<a href="#2-performance-safety-and-ease-of-development" id="2-performance-safety-and-ease-of-development" style="color: inherit; text-decoration: none;">
-					<h2>2. Performance, Safety and ease of Development</h2>
-				</a>
-				<blockquote>
-					<p>Or “why undergo the development of Web Images when <code>libvips</code> is faster”?</p>
-				</blockquote>
-				<p>First, buy into Rust and it’s advantages over C/C++ implementations. This should filter out all but native JS libraries.
-				Now with regards to Web Images over e.g. Jimp:</p>
-				<pre><code>Jimp       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 80.55 <span class="hljs-type">seconds</span>
-Web Images : ▇▇ 4.77 <span class="hljs-type">seconds</span>
-
-*<span class="hljs-comment">--------------------------------*</span>
-| processing <span class="hljs-number">158</span> images          |
-*<span class="hljs-comment">--------------------------------*</span></code></pre>
-				<a href="#miscellaneous" id="miscellaneous" style="color: inherit; text-decoration: none;">
-					<h1>Miscellaneous</h1>
-				</a>
-				<p>[*]: No annoying system requirements on libvips, ImageMagic and etcetera. There are rust dependencies yet everything is baked into the release binary and requires no further dependencies.</p>
-				<p>[†]: Bugs are inevitable and furthermore what bridges the JS world with the rust implementation is the low-level NAPI interface. Yet while the picture isn’t perfect, the FFI boundary is rather small in comparison. If you buy into Rust and it’s semantics, this should <em>at the very least</em> be a step in the right direction.</p>
-				<p>[‡]: See <a href="https://github.com/colbyn/web-images-js-bench-2019-10">benchmarks here</a></p>
-			</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">CropArgs</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.cropargs.html#cx" class="tsd-kind-icon">cx</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.cropargs.html#cy" class="tsd-kind-icon">cy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.cropargs.html#height" class="tsd-kind-icon">height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_data_.cropargs.html#width" class="tsd-kind-icon">width</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="cx" class="tsd-anchor"></a>
+					<h3>cx</h3>
+					<div class="tsd-signature tsd-kind-icon">cx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L16">data.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="cy" class="tsd-anchor"></a>
+					<h3>cy</h3>
+					<div class="tsd-signature tsd-kind-icon">cy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L17">data.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="height" class="tsd-anchor"></a>
+					<h3>height</h3>
+					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L19">data.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="width" class="tsd-anchor"></a>
+					<h3>width</h3>
+					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6d5f3e8/lib/data.ts#L18">data.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_data_.html">"data"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_data_.html">"data"</a>
+						<a href="../modules/_index_.html">"index"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_index_.html">"index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_sys_.html">"sys"</a>
+						<a href="../modules/_sys_.html">"sys"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.colorinfo.html" class="tsd-kind-icon">Color<wbr>Info</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.cropargs.html" class="tsd-kind-icon">Crop<wbr>Args</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_data_.cropargs.html#cx" class="tsd-kind-icon">cx</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_data_.cropargs.html#cy" class="tsd-kind-icon">cy</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_data_.cropargs.html#height" class="tsd-kind-icon">height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_data_.cropargs.html#width" class="tsd-kind-icon">width</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.newargs.html" class="tsd-kind-icon">New<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.resizeargs.html" class="tsd-kind-icon">Resize<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.resolution.html" class="tsd-kind-icon">Resolution</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_data_.thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_data_.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_data_.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -219,7 +267,7 @@ Web Images : ▇▇ 4.77 <span class="hljs-type">seconds</span>
 	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
