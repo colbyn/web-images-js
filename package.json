@@ -16,7 +16,7 @@
     "test": "npm run build && ./node_modules/.bin/jest",
     "release": "npm run build && npm publish",
     "postinstall": "node_modules/.bin/node-gyp rebuild",
-    "doc": "node_modules/.bin/typedoc --theme minimal --exclude ./lib/index.test.ts --out docs ./lib && touch docs/.nojekyll"
+    "doc": "node_modules/.bin/typedoc --exclude ./lib/index.test.ts --out docs ./lib && touch docs/.nojekyll"
   },
   "files": [
     "target/x86_64-apple-darwin/release/libweb_images_napi.dylib",
