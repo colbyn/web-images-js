@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/colbyn/web-images-js"
   },
-  "description": "Safe† - Fast (and Non Blocking)‡ - Dependency free* - MIT License (with no GPL extras) - Image Loading, Resizing, Conversion and Processing",
+  "description": "Safe - Fast (and Non Blocking) - Dependency free - MIT License (with no GPL extras) - Image Loading, Resizing, Conversion and Processing",
   "keywords": [
     "image",
     "image processing",
