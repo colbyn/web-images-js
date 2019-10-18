@@ -104,5 +104,4 @@ public
 /target
 **/*.rs.bk
 dist/
-README-WIP.md
 
