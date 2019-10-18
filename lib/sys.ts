@@ -1,3 +1,6 @@
+import * as data from "./data";
+
+
 /**
  * Lower level interface - Consider this module private.
  */
@@ -40,14 +43,6 @@ export interface GrayImageU32 {
     readonly ptr: any,
 }
 
-export interface Resolution {
-    readonly width: Number,
-    readonly height: Number,
-}
-
-export type ImageFormat = "jpeg" | "jpg" | "png" | "gif" | "webp" | "pnm" | "tiff" | "tga" | "bmp" | "ico" | "hdr";
-export type FilterType = "Nearest" | "Triangle" | "CatmullRom" | "Gaussian" | "Lanczos3";
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMAGE METHODS - CORE
@@ -64,56 +59,38 @@ export function open(path: String): Promise<Image> {
 /**
  * Lower level interface - Consider this function private.
  */
-export function open_with_format(path: String, format: ImageFormat): Promise<Image> {
+export function open_with_format(path: String, format: data.ImageFormat): Promise<Image> {
     return foreign.image_open_with_format(path, format);
 }
 
-export interface NewArgs {
-    width: Number,
-    height: Number,
-    pixel_type: "rgba" | "rgb" | "luma",
-}
 
 /**
  * Lower level interface - Consider this function private.
  */
-export function create(args: NewArgs): Promise<Image> {
+export function create(args: data.NewArgs): Promise<Image> {
     return foreign.image_create(args);
 }
 
 /**
  * Lower level interface - Consider this function private.
  */
-export function dimensions(image: Image): Promise<Resolution> {
+export function dimensions(image: Image): Promise<data.Resolution> {
     return foreign.image_dimensions(image);
 }
 
-/**
- * Lower level interface - Consider this function private.
- */
-export interface CropArgs {
-    cx: Number,
-    cy: Number,
-    width: Number,
-    height: Number,
-}
 
 /**
  * Lower level interface - Consider this function private.
  */
-export function crop(image: Image, args: CropArgs): Promise<Image> {
+export function crop(image: Image, args: data.CropArgs): Promise<Image> {
     return foreign.image_crop(image, args);
 }
 
-export interface ColorInfo {
-    pixel_type: String,
-    bit_depth: Number,
-}
 
 /**
  * Lower level interface - Consider this function private.
  */
-export function color(image: Image): Promise<ColorInfo> {
+export function color(image: Image): Promise<data.ColorInfo> {
     return foreign.image_color(image);
 }
 
@@ -131,42 +108,17 @@ export function invert(image: Image): Promise<Image> {
     return foreign.image_invert(image);
 }
 
-export interface ResizeArgs {
-    width: Number,
-    height: Number,
-    /**
-     * For best results (quality wise) use "Lanczos3".
-     */
-    filter_type?: FilterType,
-    /**
-     * If set to true, the image's aspect ratio is NOT preserved.
-     */
-    resize_exact?: Boolean,
-}
-
 /**
  * Lower level interface - Consider this function private.
  */
-export function resize(image: Image, args: ResizeArgs): Promise<Image> {
+export function resize(image: Image, args: data.ResizeArgs): Promise<Image> {
     return foreign.image_resize(image, args);
 }
 
 /**
  * Lower level interface - Consider this function private.
  */
-export interface ThumbnailArgs {
-    width: Number,
-    height: Number,
-    /**
-     * If set to true, the image's aspect ratio is NOT preserved.
-     */
-    resize_exact?: Boolean,
-}
-
-/**
- * Lower level interface - Consider this function private.
- */
-export function thumbnail(image: Image, args: ThumbnailArgs): Promise<Image> {
+export function thumbnail(image: Image, args: data.ThumbnailArgs): Promise<Image> {
     return foreign.image_thumbnail(image, args);
 }
 
@@ -259,7 +211,7 @@ export function save(image: Image, path: String): Promise<null> {
 /**
  * Lower level interface - Consider this function private.
  */
-export function save_with_format(image: Image, path: String, format: ImageFormat): Promise<null> {
+export function save_with_format(image: Image, path: String, format: data.ImageFormat): Promise<null> {
     return foreign.image_save(image, path, format);
 }
 

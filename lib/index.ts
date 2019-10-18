@@ -1,6 +1,6 @@
 import * as sys from "./sys";
-export {ImageFormat, Kernel3x3, ResizeArgs, ThumbnailArgs} from "./sys";
-
+import * as data from "./data";
+export * from "./data";
 
 /**
  * A decoded dynamic image.
@@ -51,7 +51,7 @@ export class Image {
      *      });
      * ```
      */
-    static async open_with_format(path: string, format: sys.ImageFormat): Promise<Image> {
+    static async open_with_format(path: string, format: data.ImageFormat): Promise<Image> {
         let img = await sys.open_with_format(path, format);
         return new Image(img);
     }
@@ -68,7 +68,7 @@ export class Image {
     /**
      * 
      */
-    async dimensions(): Promise<sys.Resolution> {
+    async dimensions(): Promise<data.Resolution> {
         return sys.dimensions(this.handle);
     }
 
@@ -76,7 +76,7 @@ export class Image {
      * Return a cut out of this image delimited by the bounding rectangle.
      */
     async crop(cx: Number, cy: Number, width: Number, height: Number): Promise<Image> {
-        let crop_args: sys.CropArgs = {cx, cy, width, height};
+        let crop_args: data.CropArgs = {cx, cy, width, height};
         return sys
             .crop(this.handle, crop_args)
             .then(x => new Image(x));
@@ -85,7 +85,7 @@ export class Image {
     /**
      * Return this image's color type.
      */
-    async color(): Promise<sys.ColorInfo> {
+    async color(): Promise<data.ColorInfo> {
         return sys.color(this.handle);
     }
     
@@ -108,7 +108,7 @@ export class Image {
     /**
      * Resize this image using the specified filter algorithm. Returns a new image.
      */
-    async resize(args: sys.ResizeArgs): Promise<Image> {
+    async resize(args: data.ResizeArgs): Promise<Image> {
         return sys
             .resize(this.handle, args)
             .then(x => new Image(x));
@@ -120,7 +120,7 @@ export class Image {
      * contributes to exactly one target pixel. May give aliasing artifacts
      * if new size is close to old size.
      */
-    async thumbnail(args: sys.ThumbnailArgs): Promise<Image> {
+    async thumbnail(args: data.ThumbnailArgs): Promise<Image> {
         return sys
             .thumbnail(this.handle, args)
             .then(x => new Image(x));
@@ -240,7 +240,7 @@ export class Image {
     /**
      * Saves the supplied buffer to a file at the path specified in the specified format.
      */
-    async save_with_format(path: String, format: sys.ImageFormat): Promise<null> {
+    async save_with_format(path: String, format: data.ImageFormat): Promise<null> {
         return sys.save_with_format(this.handle, path, format);
     }
 
