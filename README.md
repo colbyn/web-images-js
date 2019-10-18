@@ -1,4 +1,4 @@
-# [Documentation](https://colbyn.github.io/web-images-js/)
+# [Documentation](https://colbyn.github.io/web-images-js/classes/_index_.image.html)
 # [GitRepo](https://github.com/colbyn/web-images-js)
 
 # Example
