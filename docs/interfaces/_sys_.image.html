@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ThumbnailArgs | web-images</title>
+	<title>Image | web-images</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -2377,17 +2377,14 @@ img {
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class="current tsd-kind-interface">
-			<a href="thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a>
+		<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+			<a href="_sys_.image.html" class="tsd-kind-icon">Image</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="thumbnailargs.html#height" class="tsd-kind-icon">height</a>
+					<a href="_sys_.image.html#ptr" class="tsd-kind-icon">ptr</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="thumbnailargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="thumbnailargs.html#width" class="tsd-kind-icon">width</a>
+					<a href="_sys_.image.html#type" class="tsd-kind-icon">type</a>
 				</li>
 			</ul>
 		</li>
@@ -2398,15 +2395,16 @@ img {
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Lower level interface - Consider this function private.</p>
+					<p>A decoded dynamic image.</p>
 				</div>
+				<p>Lower level interface - Consider this type private.</p>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">ThumbnailArgs</span>
+					<span class="target">Image</span>
 				</li>
 			</ul>
 		</section>
@@ -2417,9 +2415,8 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="thumbnailargs.html#height" class="tsd-kind-icon">height</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="thumbnailargs.html#resize_exact" class="tsd-kind-icon">resize_<wbr>exact</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="thumbnailargs.html#width" class="tsd-kind-icon">width</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.image.html#ptr" class="tsd-kind-icon">ptr</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.image.html#type" class="tsd-kind-icon">type</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2428,37 +2425,22 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="height" class="tsd-anchor"></a>
-				<h3>height</h3>
-				<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
+				<a name="ptr" class="tsd-anchor"></a>
+				<h3>ptr</h3>
+				<div class="tsd-signature tsd-kind-icon">ptr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L159">sys.ts:159</a></li>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6e1cddd/lib/sys.ts#L23">sys.ts:23</a></li>
 					</ul>
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="resize_exact" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> resize_<wbr>exact</h3>
-				<div class="tsd-signature tsd-kind-icon">resize_<wbr>exact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Boolean</span></div>
+				<a name="type" class="tsd-anchor"></a>
+				<h3>type</h3>
+				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Image"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L163">sys.ts:163</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>If set to true, the image&#39;s aspect ratio is NOT preserved.</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="width" class="tsd-anchor"></a>
-				<h3>width</h3>
-				<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Number</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L158">sys.ts:158</a></li>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6e1cddd/lib/sys.ts#L22">sys.ts:22</a></li>
 					</ul>
 				</aside>
 			</section>

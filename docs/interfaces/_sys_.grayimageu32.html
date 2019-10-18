@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>web-images | web-images</title>
+	<title>GrayImageU32 | web-images</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -2347,7 +2347,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">web-images</a></strong>
+					<strong><a href="../index.html">web-images</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2377,90 +2377,76 @@ img {
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
+		<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+			<a href="_sys_.grayimageu32.html" class="tsd-kind-icon">Gray<wbr>Image<wbr>U32</a>
+			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_sys_.grayimageu32.html#ptr" class="tsd-kind-icon">ptr</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_sys_.grayimageu32.html#type" class="tsd-kind-icon">type</a>
+				</li>
+			</ul>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
-		<div class="tsd-panel tsd-typography">
-			<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-				<h1>Example</h1>
-			</a>
-			<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {Image} <span class="hljs-keyword">from</span> <span class="hljs-string">"web-images"</span>;
-<span class="hljs-keyword">import</span> {basename} <span class="hljs-keyword">from</span> <span class="hljs-string">"path"</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">"fs"</span>;
-
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_and_save</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">null</span>&gt; </span>{
-    <span class="hljs-comment">// Assume `path` has a file extension set to “jpeg”.</span>
-    <span class="hljs-keyword">const</span> output_path = <span class="hljs-string">`./output/<span class="hljs-subst">${basename(path, <span class="hljs-string">"jpeg"</span>)}</span>.png`</span>;
-    <span class="hljs-keyword">return</span> Image
-        .open(path)
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
-            width: <span class="hljs-number">500</span>,
-            height: <span class="hljs-number">500</span>
-        }))
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.save(output_path))
-        .then(<span class="hljs-function">(<span class="hljs-params">_</span>) =&gt;</span> {
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"done"</span>);
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
-        });
-}
-
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_only</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">Image</span>&gt; </span>{
-    <span class="hljs-keyword">return</span> Image
-        .open(path)
-        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
-            width: <span class="hljs-number">500</span>,
-            height: <span class="hljs-number">500</span>,
-            resize_exact: <span class="hljs-literal">false</span>,
-            filter_type: <span class="hljs-string">"Lanczos3"</span>
-        }));
-}</code></pre>
-			<a href="#abstract" id="abstract" style="color: inherit; text-decoration: none;">
-				<h1>Abstract</h1>
-			</a>
-			<p>The bringin of the amazing <code>image</code> crate to the node.js ecosystem, and contributing to the infection of compiled architecture and OS specific binaries in NPM.</p>
-			<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
-				<h1>Rationale</h1>
-			</a>
-			<a href="#1-license" id="1-license" style="color: inherit; text-decoration: none;">
-				<h2>1. License</h2>
-			</a>
-			<p>While e.g. the <strong>Sharp</strong> library is licensed under the Apache 2.0 License. It’s a wrapper around <code>libvips</code> which is <code>LGPLv3</code>. In contrast, Web Images is self contained and distributable under the MIT license.</p>
-			<p>Although this may, or may not be significant depending on your specific circumstances.</p>
-			<a href="#2-performance-safety-and-ease-of-development" id="2-performance-safety-and-ease-of-development" style="color: inherit; text-decoration: none;">
-				<h2>2. Performance, Safety and ease of Development</h2>
-			</a>
-			<blockquote>
-				<p>Or “why undergo the development of Web Images when <code>libvips</code> is faster”?</p>
-			</blockquote>
-			<p>First, buy into Rust and it’s advantages over C/C++ implementations. This should filter out all but native JS libraries.
-			Now with regards to Web Images over e.g. Jimp:</p>
-			<pre><code>Jimp       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 80.55 <span class="hljs-type">seconds</span>
-Web Images : ▇▇ 4.77 <span class="hljs-type">seconds</span>
-
-*<span class="hljs-comment">--------------------------------*</span>
-| processing <span class="hljs-number">158</span> images          |
-*<span class="hljs-comment">--------------------------------*</span></code></pre>
-			<a href="#miscellaneous" id="miscellaneous" style="color: inherit; text-decoration: none;">
-				<h1>Miscellaneous</h1>
-			</a>
-			<p>[*]: No annoying system requirements on libvips, ImageMagic and etcetera. There are rust dependencies yet everything is baked into the release binary and requires no further dependencies.</p>
-			<p>[†]: Bugs are inevitable and furthermore what bridges the JS world with the rust implementation is the low-level NAPI interface. Yet while the picture isn’t perfect, the FFI boundary is rather small in comparison. If you buy into Rust and it’s semantics, this should <em>at the very least</em> be a step in the right direction.</p>
-			<p>[‡]: See <a href="https://github.com/colbyn/web-images-js-bench-2019-10">benchmarks here</a></p>
-		</div>
-		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>A decoded grayscale image.</p>
+				</div>
+				<p>Lower level interface - Consider this type private.</p>
+				<p>Primarily used in more advanced image processing pipelines.
+				Laymen users are probably looking for the &#39;Image&#39; type.</p>
+				<p>Each pixel is a 32-bit unsigned integer,
+				primarily used for representing labeled images/regions.</p>
+			</div>
+		</section>
+		<section class="tsd-panel tsd-hierarchy">
+			<h3>Hierarchy</h3>
+			<ul class="tsd-hierarchy">
+				<li>
+					<span class="target">GrayImageU32</span>
+				</li>
+			</ul>
+		</section>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>External modules</h3>
+						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-external-module"><a href="modules/_index_.html" class="tsd-kind-icon">"index"</a></li>
-							<li class="tsd-kind-external-module"><a href="modules/_sys_.html" class="tsd-kind-icon">"sys"</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.grayimageu32.html#ptr" class="tsd-kind-icon">ptr</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sys_.grayimageu32.html#type" class="tsd-kind-icon">type</a></li>
 						</ul>
 					</section>
 				</div>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Properties</h2>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="ptr" class="tsd-anchor"></a>
+				<h3>ptr</h3>
+				<div class="tsd-signature tsd-kind-icon">ptr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6e1cddd/lib/sys.ts#L40">sys.ts:40</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="type" class="tsd-anchor"></a>
+				<h3>type</h3>
+				<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"GrayImageU32"</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/6e1cddd/lib/sys.ts#L39">sys.ts:39</a></li>
+					</ul>
+				</aside>
 			</section>
 		</section>
 		<footer class="with-border-bottom">
