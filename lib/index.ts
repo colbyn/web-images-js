@@ -3,7 +3,57 @@ import * as data from "./data";
 export * from "./data";
 
 /**
- * A decoded dynamic image.
+ * A loaded image.
+ * 
+ * # API Example: 
+ * ```typescript
+ * import {Image} from "web-images";
+ * import {basename} from "path";
+ * import * as fs from "fs";
+ * 
+ * async function load_and_save_fast(path: string): Promise<null> {
+ *     // Assume `path` has a file extension set to “jpeg”.
+ *     const output_path = `./output/${basename(path, "jpeg")}.png`;
+ *     return Image
+ *         .open(path)
+ *         .then((x: Image) => x.thumbnail({
+ *             width: 500,
+ *             height: 500
+ *         }))
+ *         .then((x: Image) => x.save(output_path))
+ *         .then((_) => {
+ *             console.log("done");
+ *             return null;
+ *         });
+ * }
+ * 
+ * async function load_and_save_quality(path: string): Promise<null> {
+ *     // Assume `path` has a file extension set to “jpeg”.
+ *     const output_path = `./output/${basename(path, "jpeg")}.png`;
+ *     return Image
+ *         .open(path)
+ *         .then((x: Image) => x.resize({
+ *             width: 500,
+ *             height: 500
+ *         }))
+ *         .then((x: Image) => x.save(output_path))
+ *         .then((_) => {
+ *             console.log("done");
+ *             return null;
+ *         });
+ * }
+ * 
+ * async function load_only(path: string): Promise<Image> {
+ *     return Image
+ *         .open(path)
+ *         .then((x: Image) => x.resize({
+ *             width: 500,
+ *             height: 500,
+ *             resize_exact: false,
+ *             filter_type: "Lanczos3"
+ *         }));
+ * }
+ * ```
  */
 export class Image {
     private handle!: sys.Image;
