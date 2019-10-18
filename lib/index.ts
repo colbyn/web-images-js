@@ -3,7 +3,8 @@ import * as data from "./data";
 export * from "./data";
 
 /**
- * A loaded image.
+ * # A loaded image.
+ * This class is the core API of Web Images. 
  * 
  * # API Example: 
  * ```typescript

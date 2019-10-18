@@ -1,6 +1,6 @@
 {
   "name": "web-images",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "build": "npm run build:napi && npm run build:ts && npm run build:ts:decl",
     "start": "npm run build",
     "test": "npm run build && ./node_modules/.bin/jest",
-    "release": "npm run build && npm publish",
+    "release": "npm run build && npm run doc && npm publish",
     "postinstall": "node_modules/.bin/node-gyp rebuild",
     "doc": "node_modules/.bin/typedoc --exclude ./lib/index.test.ts --out docs ./lib && touch docs/.nojekyll"
   },
