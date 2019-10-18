@@ -1,6 +1,6 @@
 {
   "name": "web-images",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -9,14 +9,21 @@
   "description": "Safe† - Fast (and Non Blocking)‡ - Dependency free* - MIT License (with no GPL extras) - Image Loading, Resizing, Conversion and Processing",
   "keywords": [
     "image",
-    "image-processing",
-    "conversion",
+    "image processing",
+    "image manipulation",
+    "image conversion",
     "resize",
+    "scale",
     "rust",
     "node",
     "safe",
     "fast",
-    "non-blocking"
+    "non-blocking",
+    "jpeg",
+    "jpg",
+    "png",
+    "scale",
+    "crop"
   ],
   "license": "MIT",
   "homepage": "https://github.com/colbyn/web-images-js",
