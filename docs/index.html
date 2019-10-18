@@ -2402,6 +2402,9 @@ img {
 			<a href="interfaces/thumbnailargs.html" class="tsd-kind-icon">Thumbnail<wbr>Args</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
+			<a href="globals.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
 			<a href="globals.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
@@ -2576,6 +2579,73 @@ img {
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<div class="tsd-panel tsd-typography">
+			<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+				<h1>Example</h1>
+			</a>
+			<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {Image} <span class="hljs-keyword">from</span> <span class="hljs-string">"web-images"</span>;
+<span class="hljs-keyword">import</span> {basename} <span class="hljs-keyword">from</span> <span class="hljs-string">"path"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">"fs"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_and_save</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">null</span>&gt; </span>{
+    <span class="hljs-comment">// Assume `path` has a file extension set to “jpeg”.</span>
+    <span class="hljs-keyword">const</span> output_path = <span class="hljs-string">`./output/<span class="hljs-subst">${basename(path, <span class="hljs-string">"jpeg"</span>)}</span>.png`</span>;
+    <span class="hljs-keyword">return</span> Image
+        .open(path)
+        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
+            width: <span class="hljs-number">500</span>,
+            height: <span class="hljs-number">500</span>
+        }))
+        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.save(output_path))
+        .then(<span class="hljs-function">(<span class="hljs-params">_</span>) =&gt;</span> {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"done"</span>);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        });
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load_only</span>(<span class="hljs-params">path: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">Image</span>&gt; </span>{
+    <span class="hljs-keyword">return</span> Image
+        .open(path)
+        .then(<span class="hljs-function">(<span class="hljs-params">x: Image</span>) =&gt;</span> x.resize({
+            width: <span class="hljs-number">500</span>,
+            height: <span class="hljs-number">500</span>,
+            resize_exact: <span class="hljs-literal">false</span>,
+            filter_type: <span class="hljs-string">"Lanczos3"</span>
+        }));
+}</code></pre>
+			<a href="#abstract" id="abstract" style="color: inherit; text-decoration: none;">
+				<h1>Abstract</h1>
+			</a>
+			<p>The bringin of the amazing <code>image</code> crate to the node.js ecosystem, and contributing to the infection of compiled architecture and OS specific binaries in NPM.</p>
+			<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
+				<h1>Rationale</h1>
+			</a>
+			<a href="#1-license" id="1-license" style="color: inherit; text-decoration: none;">
+				<h2>1. License</h2>
+			</a>
+			<p>While e.g. the <strong>Sharp</strong> library is licensed under the Apache 2.0 License. It’s a wrapper around <code>libvips</code> which is <code>LGPLv3</code>. In contrast, Web Images is self contained and distributable under the MIT license.</p>
+			<p>Although this may, or may not be significant depending on your specific circumstances.</p>
+			<a href="#2-performance-safety-and-ease-of-development" id="2-performance-safety-and-ease-of-development" style="color: inherit; text-decoration: none;">
+				<h2>2. Performance, Safety and ease of Development</h2>
+			</a>
+			<blockquote>
+				<p>Or “why undergo the development of Web Images when <code>libvips</code> is faster”?</p>
+			</blockquote>
+			<p>First, buy into Rust and it’s advantages over C/C++ implementations. This should filter out all but native JS libraries.
+			Now with regards to Web Images over e.g. Jimp:</p>
+			<pre><code>Jimp       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 80.55 <span class="hljs-type">seconds</span>
+Web Images : ▇▇ 4.77 <span class="hljs-type">seconds</span>
+
+*<span class="hljs-comment">--------------------------------*</span>
+| processing <span class="hljs-number">158</span> images          |
+*<span class="hljs-comment">--------------------------------*</span></code></pre>
+			<a href="#miscellaneous" id="miscellaneous" style="color: inherit; text-decoration: none;">
+				<h1>Miscellaneous</h1>
+			</a>
+			<p>[*]: No annoying system requirements on libvips, ImageMagic and etcetera. There are rust dependencies yet everything is baked into the release binary and requires no further dependencies.</p>
+			<p>[†]: Bugs are inevitable and furthermore what bridges the JS world with the rust implementation is the low-level NAPI interface. Yet while the picture isn’t perfect, the FFI boundary is rather small in comparison. If you buy into Rust and it’s semantics, this should <em>at the very least</em> be a step in the right direction.</p>
+			<p>[‡]: See <a href="https://github.com/colbyn/web-images-js-bench-2019-10">benchmarks here</a></p>
+		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
@@ -2602,6 +2672,7 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Type aliases</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-type-alias"><a href="globals.html#filtertype" class="tsd-kind-icon">Filter<wbr>Type</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#kernel3x3" class="tsd-kind-icon">Kernel3x3</a></li>
 						</ul>
@@ -2672,12 +2743,22 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Type aliases</h2>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="filtertype" class="tsd-anchor"></a>
+				<h3>Filter<wbr>Type</h3>
+				<div class="tsd-signature tsd-kind-icon">Filter<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Nearest"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Triangle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"CatmullRom"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Gaussian"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Lanczos3"</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L49">sys.ts:49</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="imageformat" class="tsd-anchor"></a>
 				<h3>Image<wbr>Format</h3>
 				<div class="tsd-signature tsd-kind-icon">Image<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"jpeg"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"jpg"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"png"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"gif"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"webp"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pnm"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"tiff"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"tga"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"bmp"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ico"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hdr"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L48">sys.ts:48</a></li>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L48">sys.ts:48</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2687,7 +2768,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Kernel3x3<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Number</span><span class="tsd-signature-symbol">]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L186">sys.ts:186</a></li>
+						<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L187">sys.ts:187</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2704,7 +2785,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L352">sys.ts:352</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L353">sys.ts:353</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2735,7 +2816,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L198">sys.ts:198</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L199">sys.ts:199</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2766,7 +2847,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L175">sys.ts:175</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L176">sys.ts:176</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2797,7 +2878,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L408">sys.ts:408</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L409">sys.ts:409</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2831,7 +2912,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L205">sys.ts:205</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L206">sys.ts:206</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2862,7 +2943,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L401">sys.ts:401</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L402">sys.ts:402</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2896,7 +2977,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L115">sys.ts:115</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L116">sys.ts:116</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2924,7 +3005,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L513">sys.ts:513</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L514">sys.ts:514</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2958,7 +3039,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L79">sys.ts:79</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L80">sys.ts:80</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2986,7 +3067,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L103">sys.ts:103</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L104">sys.ts:104</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3017,7 +3098,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L86">sys.ts:86</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L87">sys.ts:87</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3045,7 +3126,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L394">sys.ts:394</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L395">sys.ts:395</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3076,7 +3157,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L359">sys.ts:359</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L360">sys.ts:360</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3104,7 +3185,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L191">sys.ts:191</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L192">sys.ts:192</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3135,7 +3216,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L226">sys.ts:226</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L227">sys.ts:227</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3163,7 +3244,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L219">sys.ts:219</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L220">sys.ts:220</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3191,7 +3272,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L415">sys.ts:415</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L416">sys.ts:416</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3222,7 +3303,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L499">sys.ts:499</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L500">sys.ts:500</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3259,7 +3340,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L314">sys.ts:314</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L315">sys.ts:315</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3314,7 +3395,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L324">sys.ts:324</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L325">sys.ts:325</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3381,7 +3462,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L339">sys.ts:339</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L340">sys.ts:340</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3409,7 +3490,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L122">sys.ts:122</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L123">sys.ts:123</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3437,7 +3518,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L422">sys.ts:422</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L423">sys.ts:423</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3468,7 +3549,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L212">sys.ts:212</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L213">sys.ts:213</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3499,7 +3580,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L129">sys.ts:129</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L130">sys.ts:130</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3527,7 +3608,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L293">sys.ts:293</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L294">sys.ts:294</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3582,7 +3663,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L272">sys.ts:272</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L273">sys.ts:273</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3637,7 +3718,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L366">sys.ts:366</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L367">sys.ts:367</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3668,7 +3749,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L429">sys.ts:429</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L430">sys.ts:430</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3702,7 +3783,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L471">sys.ts:471</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L472">sys.ts:472</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3736,7 +3817,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L478">sys.ts:478</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L479">sys.ts:479</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3770,7 +3851,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L485">sys.ts:485</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L486">sys.ts:486</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3804,7 +3885,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L492">sys.ts:492</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L493">sys.ts:493</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3838,7 +3919,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L58">sys.ts:58</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L59">sys.ts:59</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3866,7 +3947,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L66">sys.ts:66</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L67">sys.ts:67</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3897,7 +3978,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L373">sys.ts:373</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L374">sys.ts:374</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3925,7 +4006,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L303">sys.ts:303</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L304">sys.ts:304</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3992,7 +4073,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L282">sys.ts:282</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L283">sys.ts:283</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4059,7 +4140,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L149">sys.ts:149</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L150">sys.ts:150</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4090,7 +4171,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L240">sys.ts:240</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L241">sys.ts:241</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4118,7 +4199,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L247">sys.ts:247</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L248">sys.ts:248</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4146,7 +4227,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L233">sys.ts:233</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L234">sys.ts:234</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4174,7 +4255,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L506">sys.ts:506</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L507">sys.ts:507</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4208,7 +4289,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L254">sys.ts:254</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L255">sys.ts:255</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4239,7 +4320,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L261">sys.ts:261</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L262">sys.ts:262</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4273,7 +4354,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L436">sys.ts:436</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L437">sys.ts:437</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4307,7 +4388,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L443">sys.ts:443</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L444">sys.ts:444</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4338,7 +4419,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L450">sys.ts:450</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L451">sys.ts:451</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4366,7 +4447,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L457">sys.ts:457</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L458">sys.ts:458</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4400,7 +4481,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L520">sys.ts:520</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L521">sys.ts:521</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4431,7 +4512,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L380">sys.ts:380</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L381">sys.ts:381</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4465,7 +4546,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L387">sys.ts:387</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L388">sys.ts:388</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4496,7 +4577,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L168">sys.ts:168</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L169">sys.ts:169</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4527,7 +4608,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L182">sys.ts:182</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L183">sys.ts:183</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -4561,7 +4642,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/08aaecc/lib/sys.ts#L464">sys.ts:464</a></li>
+								<li>Defined in <a href="https://github.com/colbyn/web-images-js/blob/a9ceec1/lib/sys.ts#L465">sys.ts:465</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

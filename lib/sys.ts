@@ -46,6 +46,7 @@ export interface Resolution {
 }
 
 export type ImageFormat = "jpeg" | "jpg" | "png" | "gif" | "webp" | "pnm" | "tiff" | "tga" | "bmp" | "ico" | "hdr";
+export type FilterType = "Nearest" | "Triangle" | "CatmullRom" | "Gaussian" | "Lanczos3";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -136,11 +137,11 @@ export interface ResizeArgs {
     /**
      * For best results (quality wise) use "Lanczos3".
      */
-    filter_type: "Nearest" | "Triangle" | "CatmullRom" | "Gaussian" | "Lanczos3",
+    filter_type?: FilterType,
     /**
      * If set to true, the image's aspect ratio is NOT preserved.
      */
-    resize_exact: Boolean,
+    resize_exact?: Boolean,
 }
 
 /**
@@ -159,7 +160,7 @@ export interface ThumbnailArgs {
     /**
      * If set to true, the image's aspect ratio is NOT preserved.
      */
-    resize_exact: Boolean,
+    resize_exact?: Boolean,
 }
 
 /**
