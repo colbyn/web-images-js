@@ -18,6 +18,7 @@
     "fast",
     "non-blocking"
   ],
+  "license": "MIT",
   "homepage": "https://github.com/colbyn/web-images-js",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
