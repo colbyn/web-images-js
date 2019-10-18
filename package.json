@@ -6,6 +6,18 @@
     "type": "git",
     "url": "https://github.com/colbyn/web-images-js"
   },
+  "description": "Safe† - Fast (and Non Blocking)‡ - Dependency free* - MIT License (with no GPL extras) - Image Loading, Resizing, Conversion and Processing",
+  "keywords": [
+    "image",
+    "image-processing",
+    "conversion",
+    "resize",
+    "rust",
+    "node",
+    "safe",
+    "fast",
+    "non-blocking"
+  ],
   "homepage": "https://github.com/colbyn/web-images-js",
   "scripts": {
     "build:napi": "./build.sh && node_modules/.bin/node-gyp rebuild",
