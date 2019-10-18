@@ -1,5 +1,5 @@
-Docs: [here](https://colbyn.github.io/web-images-js/)
-
+# [Documentation](https://colbyn.github.io/web-images-js/)
+# [GitRepo](https://github.com/colbyn/web-images-js)
 
 # Example
 
@@ -87,4 +87,3 @@ Web Images : ▇▇ 4.77 seconds
 [†]: Bugs are inevitable and furthermore what bridges the JS world with the rust implementation is the low-level NAPI interface. Yet while the picture isn’t perfect, the FFI boundary is rather small in comparison. If you buy into Rust and it’s semantics, this should *at the very least* be a step in the right direction.
 
 [‡]: See [benchmarks here](https://github.com/colbyn/web-images-js-bench-2019-10)
-
